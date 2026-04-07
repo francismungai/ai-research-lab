@@ -26,7 +26,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- Signup Form Submission ---
+  // --- Check for recovery session from Supabase email link ---
+  // Supabase sends a hash fragment with access_token when the user
+  // clicks the password reset link in their email.
+  supabaseClient.auth.onAuthStateChange(async (event, session) => {
+    if (event === "PASSWORD_RECOVERY") {
+      showToast(
+        "You can now set your new password below.",
+        "info",
+        5000,
+      );
+    }
+  });
+
+  // --- Reset Password Form Submission ---
   const form = document.querySelector("form");
   const submitBtn = form?.querySelector('button[type="submit"]');
 
@@ -34,25 +47,24 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const email = document.getElementById("email")?.value.trim();
-      const password = document.getElementById("password")?.value;
-      const confirmPassword =
-        document.getElementById("confirm-password")?.value;
+      const newPassword = document.getElementById("new-password")?.value;
+      const confirmNewPassword =
+        document.getElementById("confirm-new-password")?.value;
       const passwordHint =
         document.getElementById("password-hint")?.value.trim();
 
       // Validation
-      if (!email || !password || !confirmPassword) {
+      if (!newPassword || !confirmNewPassword) {
         showToast("Please fill in all required fields.", "error");
         return;
       }
 
-      if (password.length < 6) {
+      if (newPassword.length < 6) {
         showToast("Password must be at least 6 characters.", "error");
         return;
       }
 
-      if (password !== confirmPassword) {
+      if (newPassword !== confirmNewPassword) {
         showToast("Passwords do not match.", "error");
         return;
       }
@@ -60,46 +72,37 @@ document.addEventListener("DOMContentLoaded", () => {
       // Disable button and show loading state
       const originalText = submitBtn.textContent;
       submitBtn.disabled = true;
-      submitBtn.textContent = "Creating account...";
+      submitBtn.textContent = "Resetting password...";
       submitBtn.classList.add("opacity-70", "cursor-not-allowed");
 
       try {
-        const { data, error } = await supabaseClient.auth.signUp({
-          email,
-          password,
-          options: {
-            data: {
-              password_hint: passwordHint || "",
-            },
-          },
-        });
+        const updatePayload = {
+          password: newPassword,
+        };
+
+        // Store the new password hint in user_metadata if provided
+        if (passwordHint) {
+          updatePayload.data = { password_hint: passwordHint };
+        }
+
+        const { error } = await supabaseClient.auth.updateUser(updatePayload);
 
         if (error) {
           showToast(error.message, "error");
-        } else if (
-          data?.user?.identities &&
-          data.user.identities.length === 0
-        ) {
-          // User already exists
-          showToast(
-            "An account with this email already exists. Please sign in.",
-            "error",
-          );
         } else {
           showToast(
-            "Account created! Check your email to confirm your account.",
+            "Password updated successfully! Redirecting to sign in...",
             "success",
-            6000,
+            4000,
           );
-          // Redirect to login after a delay
           setTimeout(() => {
             window.location.href = "login.html";
-          }, 3000);
+          }, 2000);
           return;
         }
       } catch (err) {
         showToast("An unexpected error occurred. Please try again.", "error");
-        console.error("Signup error:", err);
+        console.error("Reset password error:", err);
       }
 
       // Re-enable button on error
