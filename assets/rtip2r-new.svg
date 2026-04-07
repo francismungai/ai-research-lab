@@ -1,0 +1,48 @@
+<svg width="400" height="240" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RTIP2R Conference banner">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff1f2"/>
+      <stop offset="0.55" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#ffe4e6"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#be123c"/>
+      <stop offset="1" stop-color="#fb7185"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="160%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#000" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="240" rx="18" fill="url(#bg)"/>
+
+  <!-- Unique design: focus brackets + scan arc (keeps it RTIP2R but same style language) -->
+  <g opacity="0.20" stroke="#111827" stroke-width="2" fill="none">
+    <path d="M286 32h20v20"/>
+    <path d="M372 52V32h-20"/>
+    <path d="M286 116v-20h20"/>
+    <path d="M352 116h20V96"/>
+    <circle cx="332" cy="74" r="16"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <rect x="28" y="54" width="344" height="132" rx="16" fill="#ffffff"/>
+    <rect x="28" y="54" width="344" height="132" rx="16" fill="none" stroke="#e5e7eb"/>
+  </g>
+
+  <rect x="28" y="54" width="6" height="132" rx="3" fill="url(#accent)"/>
+
+  <text x="52" y="85" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial" font-size="14" font-weight="800" fill="#111827">Recent Trends in Image</text>
+  <text x="52" y="103" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial" font-size="14" font-weight="800" fill="#111827">Processing and Pattern</text>
+  <text x="52" y="121" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial" font-size="14" font-weight="800" fill="#111827">Recognition</text>
+
+  <g>
+    <rect x="52" y="133" width="140" height="26" rx="13" fill="#111827"/>
+    <text x="64" y="151" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial" font-size="12" font-weight="800" fill="#ffffff" letter-spacing="0.08em">INTERNATIONAL</text>
+  </g>
+
+  <!-- Animated scan line inside the focus area -->
+  <rect x="300" y="40" width="64" height="2" fill="#fb7185" opacity="0.85">
+    <animate attributeName="y" values="40;110;40" dur="3.0s" repeatCount="indefinite"/>
+  </rect>
+</svg>
