@@ -20,7 +20,7 @@
       <main
         class="max-w-5xl mx-auto px-6 py-10 md:px-12 bg-white/60 backdrop-blur-sm rounded-[2.5rem] shadow-2xl border border-white/20 min-h-[calc(100vh-8rem)] flex flex-col"
       >
-        <section class="text-center mb-10">
+        <section class="text-center mb-8">
           <h1
             class="text-4xl md:text-5xl lg:text-6xl font-bold text-[#C53030] tracking-tight mb-4"
           >
@@ -33,9 +33,40 @@
             AI Research Lab. Explore our latest work in artificial intelligence,
             machine learning, and computer vision.
           </p>
+
+          <!-- Write Post button (hidden by default, shown when logged in) -->
+          <a
+            id="write-post-btn"
+            href="create-post.html"
+            class="hidden inline-flex items-center gap-2 mt-6 px-5 py-2.5 bg-[#C53030] text-white font-bold text-sm rounded-xl hover:bg-red-800 transition-colors shadow-md"
+          >
+            <i class="bx bx-edit-alt text-lg"></i>
+            Write a Post
+          </a>
         </section>
 
-        <div class="flex-1 flex flex-col items-center justify-center py-16">
+        <!-- Loading state -->
+        <div
+          id="blog-loading"
+          class="flex-1 flex flex-col items-center justify-center py-16"
+        >
+          <div
+            class="w-8 h-8 border-4 border-gray-200 border-t-[#C53030] rounded-full animate-spin mb-4"
+          ></div>
+          <p class="text-gray-500 font-medium text-sm">Loading posts...</p>
+        </div>
+
+        <!-- Posts grid (hidden until posts load) -->
+        <div
+          id="blog-posts-grid"
+          class="hidden grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 flex-1"
+        ></div>
+
+        <!-- Empty state (hidden until confirmed no posts) -->
+        <div
+          id="blog-empty-state"
+          class="hidden flex-1 flex flex-col items-center justify-center py-16"
+        >
           <div
             class="w-20 h-20 mb-6 bg-gray-200/60 rounded-full flex items-center justify-center shadow-inner"
           >
@@ -78,11 +109,10 @@
             >
               View All Publications
               <svg
-                class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"
+                class="w-4 h-4 ml-1"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   stroke-linecap="round"
@@ -98,11 +128,10 @@
             >
               Meet Our Team
               <svg
-                class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"
+                class="w-4 h-4 ml-1"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   stroke-linecap="round"
@@ -123,6 +152,7 @@
     <script src="js/supabase-config.js"></script>
     <script src="js/toast.js"></script>
     <script src="js/navbar.js"></script>
+    <script src="js/blog.js"></script>
     <script src="js/loader.js"></script>
   </body>
 </html>
