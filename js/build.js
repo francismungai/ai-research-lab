@@ -78,7 +78,10 @@ async function buildPeoplePage() {
   const templateHtml = fs.readFileSync(templatePath, "utf8");
 
   // FIXED: Restored the proper placeholder target
-  const finalHtml = templateHtml.replace("", finalGridHtml);
+  const finalHtml = templateHtml.replace(
+    "___PEOPLE_GRID_PLACEHOLDER___",
+    finalGridHtml,
+  );
 
   fs.writeFileSync(path.join(process.cwd(), "people.html"), finalHtml);
   console.log(
