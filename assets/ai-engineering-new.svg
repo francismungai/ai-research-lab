@@ -1,0 +1,49 @@
+<svg width="400" height="240" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI Engineering banner">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ecfeff"/>
+      <stop offset="0.55" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#cffafe"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0f766e"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="160%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#000" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="240" rx="18" fill="url(#bg)"/>
+
+  <!-- Unique design: isometric "pipeline" linework -->
+  <g opacity="0.22" stroke="#111827" stroke-width="2" fill="none">
+    <path d="M48 70h78l22 18h72l22 18h98"/>
+    <path d="M48 98h62l22 18h86l22 18h110"/>
+    <path d="M48 126h46l22 18h100l22 18h122"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <rect x="28" y="54" width="344" height="132" rx="16" fill="#ffffff"/>
+    <rect x="28" y="54" width="344" height="132" rx="16" fill="none" stroke="#e5e7eb"/>
+  </g>
+
+  <!-- Accent bar split -->
+  <rect x="28" y="54" width="6" height="132" rx="3" fill="#111827" opacity="0.12"/>
+  <rect x="34" y="54" width="6" height="132" rx="3" fill="url(#accent)"/>
+
+  <text x="56" y="95" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial" font-size="22" font-weight="800" fill="#111827">AI Engineering</text>
+  <text x="56" y="118" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial" font-size="22" font-weight="800" fill="#111827">and Innovation</text>
+
+  <g>
+    <rect x="56" y="130" width="140" height="26" rx="13" fill="#111827"/>
+    <text x="68" y="148" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial" font-size="12" font-weight="800" fill="#ffffff" letter-spacing="0.08em">INTERNATIONAL</text>
+  </g>
+
+  <!-- Subtle moving "build" indicator -->
+  <g>
+    <circle cx="340" cy="88" r="4" fill="#22d3ee" opacity="0.9">
+      <animate attributeName="cx" values="300;352;300" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

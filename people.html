@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>People | USD AI Research</title>
+    <link rel="stylesheet" href="css/output.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Hide scrollbar for the alphabet filter but allow swiping */
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body
+    class="font-sans text-gray-900 bg-cover bg-center bg-fixed bg-no-repeat"
+    style="background-image: url(&quot;assets/building-bg.jpeg&quot;)"
+  >
+    <div id="navbar-placeholder" class="min-h-16 sticky top-0 z-50"></div>
+
+    <div class="py-4 px-4 sm:px-6 lg:px-8">
+      <main
+        class="max-w-7xl mx-auto px-6 py-10 md:px-12 bg-white/70 backdrop-blur-sm rounded-[2.5rem] shadow-2xl border border-white/20 min-h-[calc(100vh-8rem)] flex flex-col"
+      >
+        <div class="text-center mb-10">
+          <h1
+            class="text-4xl lg:text-5xl font-bold text-[#C53030] tracking-tight mb-4"
+          >
+            People
+          </h1>
+          <p
+            class="text-gray-700 text-lg font-medium max-w-3xl mx-auto leading-relaxed"
+          >
+            Meet the brilliant minds behind our AI research lab - faculty,
+            students, and alumni who are shaping the future of artificial
+            intelligence.
+          </p>
+        </div>
+
+        <div class="mb-10 space-y-6">
+          <div
+            class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 border-b border-gray-200 pb-6"
+          >
+            <span
+              class="text-sm font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+              >Filter by:</span
+            >
+            <div class="flex flex-wrap gap-2">
+              <button
+                class="px-4 py-1.5 text-sm font-bold rounded-lg transition-colors border-2 bg-[#C53030] text-white border-[#C53030]"
+              >
+                All
+              </button>
+              <button
+                class="px-4 py-1.5 text-sm font-bold rounded-lg transition-colors border-2 bg-gray-50 text-gray-600 border-gray-200 hover:border-gray-300 hover:text-gray-900"
+              >
+                Faculty
+              </button>
+              <button
+                class="px-4 py-1.5 text-sm font-bold rounded-lg transition-colors border-2 bg-gray-50 text-gray-600 border-gray-200 hover:border-gray-300 hover:text-gray-900"
+              >
+                Postdoc
+              </button>
+              <button
+                class="px-4 py-1.5 text-sm font-bold rounded-lg transition-colors border-2 bg-gray-50 text-gray-600 border-gray-200 hover:border-gray-300 hover:text-gray-900"
+              >
+                PhD Students
+              </button>
+              <button
+                class="px-4 py-1.5 text-sm font-bold rounded-lg transition-colors border-2 bg-gray-50 text-gray-600 border-gray-200 hover:border-gray-300 hover:text-gray-900"
+              >
+                Masters Students
+              </button>
+              <button
+                class="px-4 py-1.5 text-sm font-bold rounded-lg transition-colors border-2 bg-gray-50 text-gray-600 border-gray-200 hover:border-gray-300 hover:text-gray-900"
+              >
+                Undergraduate
+              </button>
+              <button
+                class="px-4 py-1.5 text-sm font-bold rounded-lg transition-colors border-2 bg-gray-50 text-gray-600 border-gray-200 hover:border-gray-300 hover:text-gray-900"
+              >
+                Alumni
+              </button>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+            <span
+              class="text-sm font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+              >Start with:</span
+            >
+            <div class="flex overflow-x-auto gap-2 hide-scrollbar pb-2 sm:pb-0">
+              <button
+                class="px-3 py-1.5 text-sm font-bold rounded-lg transition-colors border-2 bg-[#C53030] text-white border-[#C53030] shrink-0"
+              >
+                All
+              </button>
+              <script>
+                const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+                alphabet.forEach((letter) => {
+                  document.write(
+                    `<button class="px-3 py-1.5 text-sm font-bold rounded-lg transition-colors border-2 bg-gray-50 text-gray-600 border-gray-200 hover:border-gray-300 hover:text-gray-900 flex-shrink-0">${letter}</button>`,
+                  );
+                });
+              </script>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12"
+        >
+          <div
+            class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[#C53030] transition-all duration-300 flex flex-col items-center text-center group cursor-pointer"
+          >
+            <div
+              class="w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-[#C53030] transition-colors duration-300"
+            >
+              <img
+                src="assets/kc-santosh.jpg"
+                alt="Prof. KC Santosh"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <h3
+              class="text-lg font-bold text-gray-900 mb-2 group-hover:text-[#C53030] transition-colors"
+            >
+              Prof. KC Santosh
+            </h3>
+            <p class="text-sm font-medium text-gray-600 mb-4 flex-1">
+              Professor (AI) & Chair, Department of Computer Science, USD |
+              Founding Director, USD AI Research
+            </p>
+            <div
+              class="mt-auto flex gap-3 text-xs font-bold w-full justify-center border-t border-gray-100 pt-4"
+            >
+              <a
+                href="https://scholar.google.com/citations?hl=en&user=luPx18QAAAAJ"
+                target="_blank"
+                class="text-blue-600 hover:text-blue-800 transition-colors inline-flex items-center"
+                ><i class="bx bxl-google mr-1"></i> Scholar</a
+              >
+              <span class="text-gray-300">|</span>
+              <a
+                href="https://dblp.uni-trier.de/pid/17/735.html"
+                target="_blank"
+                class="text-orange-600 hover:text-orange-800 transition-colors inline-flex items-center"
+                ><i class="bx bx-library mr-1"></i> DBLP</a
+              >
+            </div>
+          </div>
+
+          <div
+            class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[#C53030] transition-all duration-300 flex flex-col items-center text-center group cursor-pointer"
+          >
+            <div
+              class="w-26 h-26 mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-[#C53030] transition-colors duration-300"
+            >
+              <img
+                src="assets/rodrigue-rizk.jpg"
+                alt="Dr. Rodrigue Rizk"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <h3
+              class="text-lg font-bold text-gray-900 mb-2 group-hover:text-[#C53030] transition-colors"
+            >
+              Dr. Rodrigue Rizk
+            </h3>
+            <p class="text-sm font-medium text-gray-600 mb-4 flex-1">
+              Assistant Professor | Vice-Director, Engineering | Graduate
+              Program Co-ordinator
+            </p>
+            <div
+              class="mt-auto flex gap-3 text-xs font-bold w-full justify-center border-t border-gray-100 pt-4"
+            >
+              <a
+                href="https://scholar.google.com/citations?hl=en&user=CZkCb5QAAAAJ"
+                target="_blank"
+                class="text-blue-600 hover:text-blue-800 transition-colors inline-flex items-center"
+                ><i class="bx bxl-google mr-1"></i> Scholar</a
+              >
+              <span class="text-gray-300">|</span>
+              <a
+                href="https://dblp.org/pid/244/7657.html"
+                target="_blank"
+                class="text-orange-600 hover:text-orange-800 transition-colors inline-flex items-center"
+                ><i class="bx bx-library mr-1"></i> DBLP</a
+              >
+            </div>
+          </div>
+
+          <div
+            class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[#C53030] transition-all duration-300 flex flex-col items-center text-center group cursor-pointer"
+          >
+            <div
+              class="w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-[#C53030] transition-colors duration-300"
+            >
+              <img
+                src="assets/longwei-wang.jpeg"
+                alt="Dr. Longwei Wang"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <h3
+              class="text-lg font-bold text-gray-900 mb-2 group-hover:text-[#C53030] transition-colors"
+            >
+              Dr. Longwei Wang
+            </h3>
+            <p class="text-sm font-medium text-gray-600 mb-4 flex-1">
+              Assistant Professor, Department of Computer Science, USD |
+              Vice-Director, Research
+            </p>
+            <div
+              class="mt-auto flex gap-3 text-xs font-bold w-full justify-center border-t border-gray-100 pt-4"
+            >
+              <a
+                href="https://scholar.google.com/citations?hl=en&user=nRGDT_sAAAAJ"
+                target="_blank"
+                class="text-blue-600 hover:text-blue-800 transition-colors inline-flex items-center"
+                ><i class="bx bxl-google mr-1"></i> Scholar</a
+              >
+              <span class="text-gray-300">|</span>
+              <a
+                href="https://dblp.org/pid/150/5640"
+                target="_blank"
+                class="text-orange-600 hover:text-orange-800 transition-colors inline-flex items-center"
+                ><i class="bx bx-library mr-1"></i> DBLP</a
+              >
+            </div>
+          </div>
+
+          <div
+            class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[#C53030] transition-all duration-300 flex flex-col items-center text-center group cursor-pointer"
+          >
+            <div
+              class="w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-[#C53030] transition-colors duration-300"
+            >
+              <img
+                src="assets/srikanth-baride.jpg"
+                alt="Dr. Srikanth Baride"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <h3
+              class="text-lg font-bold text-gray-900 mb-2 group-hover:text-[#C53030] transition-colors"
+            >
+              Dr. Srikanth Baride
+            </h3>
+            <p class="text-sm font-medium text-gray-600 mb-4 flex-1">
+              Postdoc, Department of Computer Science, USD | Member, USD AI
+              Research
+            </p>
+            <div
+              class="mt-auto flex gap-3 text-xs font-bold w-full justify-center border-t border-gray-100 pt-4"
+            >
+              <a
+                href="https://scholar.google.com/citations?hl=en&user=Sy_2zJcAAAAJ"
+                target="_blank"
+                class="text-blue-600 hover:text-blue-800 transition-colors inline-flex items-center"
+                ><i class="bx bxl-google mr-1"></i> Scholar</a
+              >
+              <span class="text-gray-300">|</span>
+              <a
+                href="https://dblp.org/pid/93/9638"
+                target="_blank"
+                class="text-orange-600 hover:text-orange-800 transition-colors inline-flex items-center"
+                ><i class="bx bx-library mr-1"></i> DBLP</a
+              >
+            </div>
+          </div>
+
+          <div
+            class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[#C53030] transition-all duration-300 flex flex-col items-center text-center group cursor-pointer"
+          >
+            <div
+              class="w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-[#C53030] transition-colors duration-300"
+            >
+              <img
+                src="assets/nand-yadav.jpg"
+                alt="Dr. Nand K Yadav"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <h3
+              class="text-lg font-bold text-gray-900 mb-2 group-hover:text-[#C53030] transition-colors"
+            >
+              Dr. Nand K Yadav
+            </h3>
+            <p class="text-sm font-medium text-gray-600 mb-4 flex-1">
+              Postdoc, Department of Computer Science, USD | Member, USD AI
+              Research
+            </p>
+            <div
+              class="mt-auto flex gap-3 text-xs font-bold w-full justify-center border-t border-gray-100 pt-4"
+            >
+              <a
+                href="https://scholar.google.com/citations?hl=en&user=MYuCzcsAAAAJ"
+                target="_blank"
+                class="text-blue-600 hover:text-blue-800 transition-colors inline-flex items-center"
+                ><i class="bx bxl-google mr-1"></i> Scholar</a
+              >
+            </div>
+          </div>
+
+          <div
+            class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[#C53030] transition-all duration-300 flex flex-col items-center text-center group cursor-pointer"
+          >
+            <div
+              class="w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-[#C53030] transition-colors duration-300"
+            >
+              <img
+                src="assets/deepika-nuthalapati.jpg"
+                alt="Deepika Nuthalapati"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <h3
+              class="text-lg font-bold text-gray-900 mb-2 group-hover:text-[#C53030] transition-colors"
+            >
+              Deepika Nuthalapati
+            </h3>
+            <p class="text-sm font-medium text-gray-600 mb-4 flex-1">
+              Research Associate, Department of Computer Science | Master's
+              Graduate
+            </p>
+          </div>
+
+          <div
+            class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[#C53030] transition-all duration-300 flex flex-col items-center text-center group cursor-pointer"
+          >
+            <div
+              class="w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-gray-100 bg-gray-50 flex items-center justify-center group-hover:border-[#C53030] group-hover:bg-red-50 transition-colors duration-300"
+            >
+              <i
+                class="bx bx-user text-4xl text-gray-300 group-hover:text-[#C53030]"
+              ></i>
+            </div>
+            <h3
+              class="text-lg font-bold text-gray-900 mb-2 group-hover:text-[#C53030] transition-colors"
+            >
+              Casey Wall
+            </h3>
+            <p class="text-sm font-medium text-gray-600 mb-4 flex-1">
+              PhD Student | Computer Science
+            </p>
+          </div>
+
+          <div
+            class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[#C53030] transition-all duration-300 flex flex-col items-center text-center group cursor-pointer"
+          >
+            <div
+              class="w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-gray-100 bg-gray-50 flex items-center justify-center group-hover:border-[#C53030] group-hover:bg-red-50 transition-colors duration-300"
+            >
+              <i
+                class="bx bx-user text-4xl text-gray-300 group-hover:text-[#C53030]"
+              ></i>
+            </div>
+            <h3
+              class="text-lg font-bold text-gray-900 mb-2 group-hover:text-[#C53030] transition-colors"
+            >
+              Nickolas Rasmussen
+            </h3>
+            <p class="text-sm font-medium text-gray-600 mb-4 flex-1">
+              PhD Student | Computer Science
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="mt-auto border-t border-gray-200 pt-8 flex flex-col items-center gap-4"
+        >
+          <div class="text-sm text-gray-500 font-bold tracking-wide">
+            Showing 1-24 of 97 people
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button
+              class="px-4 py-2 text-sm font-bold rounded-lg transition-colors bg-gray-100 text-gray-400 cursor-not-allowed"
+              disabled
+            >
+              ← Prev
+            </button>
+            <button
+              class="w-10 h-10 text-sm font-bold rounded-lg transition-colors bg-[#C53030] text-white shadow-md"
+            >
+              1
+            </button>
+            <button
+              class="w-10 h-10 text-sm font-bold rounded-lg transition-colors bg-white text-gray-600 border border-gray-200 hover:border-[#C53030] hover:text-[#C53030]"
+            >
+              2
+            </button>
+            <button
+              class="w-10 h-10 text-sm font-bold rounded-lg transition-colors bg-white text-gray-600 border border-gray-200 hover:border-[#C53030] hover:text-[#C53030]"
+            >
+              3
+            </button>
+            <span class="text-gray-400 px-1">...</span>
+            <button
+              class="px-4 py-2 text-sm font-bold rounded-lg transition-colors bg-white text-gray-600 border border-gray-200 hover:border-[#C53030] hover:text-[#C53030]"
+            >
+              Next →
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/loader.js"></script>
+    <script src="js/people.js"></script>
+  </body>
+</html>
