@@ -2,7 +2,7 @@ name: Build and Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["staging"]
+    branches: ["main"]
   # This opens up an endpoint for Supabase to hit
   repository_dispatch:
     types: [supabase_update]

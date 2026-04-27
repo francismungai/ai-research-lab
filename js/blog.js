@@ -81,7 +81,7 @@ function renderPostCard(post) {
     ? `<div class="h-44 overflow-hidden">
          <img src="${post.cover_image_url}" alt="${post.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
        </div>`
-    : `<div class="h-44 bg-gradient-to-br from-red-50 to-gray-100 flex items-center justify-center">
+    : `<div class="h-44 bg-linear-to-br from-red-50 to-gray-100 flex items-center justify-center">
          <i class="bx bx-file-blank text-5xl text-gray-300"></i>
        </div>`;
 
