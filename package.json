@@ -1,6 +1,8 @@
 {
   "scripts": {
     "tailwind": "npx @tailwindcss/cli -i ./css/input.css -o ./css/output.css --watch",
+    "build": "npx @tailwindcss/cli -i ./css/input.css -o ./css/output.css --minify",
+    "preview": "serve -p 8000 .",
     "server": "python -m http.server 8000",
     "dev": "concurrently \"npm run tailwind\" \"npm run server\""
   },
