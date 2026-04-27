@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Publications | USD AI Research</title>
+    <link rel="stylesheet" href="css/output.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body
+    class="font-sans text-gray-900 bg-cover bg-center bg-fixed bg-no-repeat"
+    style="background-image: url(&quot;assets/building-bg.jpeg&quot;)"
+  >
+    <div id="navbar-placeholder" class="min-h-16 sticky top-0 z-50"></div>
+
+    <div class="py-4 px-4 sm:px-6 lg:px-8">
+      <main
+        class="max-w-7xl mx-auto px-6 py-10 md:px-12 bg-white/70 backdrop-blur-sm rounded-[2.5rem] shadow-2xl border border-white/20 min-h-[calc(100vh-8rem)]"
+      >
+        <div class="mb-10">
+          <h1
+            class="text-4xl lg:text-5xl font-bold text-[#C53030] tracking-tight mb-2"
+          >
+            Publications
+          </h1>
+          <p class="text-gray-700 text-lg font-medium max-w-2xl">
+            Research output from the USD AI Research Lab — journals,
+            conferences, books & preprints
+          </p>
+        </div>
+
+        <section class="mb-12">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-1.5 h-6 bg-[#C53030] rounded-full"></div>
+            <h2 class="text-2xl font-bold text-gray-900">Books</h2>
+          </div>
+          <div class="relative group">
+            <div
+              class="flex overflow-x-auto gap-6 pb-4 pt-2 snap-x no-scrollbar cursor-grab active:cursor-grabbing"
+            >
+              ___BOOKS_CAROUSEL_PLACEHOLDER___
+            </div>
+          </div>
+        </section>
+
+        <div class="flex border-b border-gray-300 mb-6">
+          <button
+            id="tab-btn-samples"
+            class="px-6 py-3 text-sm font-bold border-b-2 transition-colors border-[#C53030] text-[#C53030]"
+          >
+            Few Samples
+            <span
+              class="ml-2 text-xs px-2 py-0.5 rounded-full bg-red-100 text-[#C53030]"
+              >___SAMPLES_COUNT_PLACEHOLDER___</span
+            >
+          </button>
+          <button
+            id="tab-btn-papers"
+            class="px-6 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-300"
+          >
+            Research Papers
+            <span
+              class="ml-2 text-xs px-2 py-0.5 rounded-full bg-gray-200 text-gray-600"
+              >___PAPERS_COUNT_PLACEHOLDER___</span
+            >
+          </button>
+        </div>
+
+        <section
+          class="bg-white/50 backdrop-blur-sm rounded-xl border border-gray-200 p-2 md:p-6 shadow-inner min-h-[500px]"
+        >
+          <div id="tab-content-samples">___FEW_SAMPLES_PLACEHOLDER___</div>
+
+          <div id="tab-content-papers" class="hidden">
+            <div class="mb-4 relative">
+              <i
+                class="bx bx-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"
+              ></i>
+              <input
+                id="paper-search"
+                placeholder="Search papers by title, author, or keyword..."
+                class="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#C53030] bg-white shadow-sm"
+                type="text"
+              />
+            </div>
+
+            <div id="filter-pills" class="mb-6 flex flex-wrap gap-2">
+              <button
+                class="filter-btn active px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 bg-[#C53030] text-white shadow-sm"
+                data-filter="All"
+              >
+                All
+              </button>
+              <button
+                class="filter-btn px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 bg-gray-100 text-gray-600 hover:bg-gray-200"
+                data-filter="Medical"
+              >
+                Medical Imaging
+              </button>
+              <button
+                class="filter-btn px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 bg-gray-100 text-gray-600 hover:bg-gray-200"
+                data-filter="COVID"
+              >
+                COVID-19
+              </button>
+              <button
+                class="filter-btn px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 bg-gray-100 text-gray-600 hover:bg-gray-200"
+                data-filter="Learning"
+              >
+                Machine Learning
+              </button>
+              <button
+                class="filter-btn px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 bg-gray-100 text-gray-600 hover:bg-gray-200"
+                data-filter="Vision"
+              >
+                Computer Vision
+              </button>
+            </div>
+
+            <div
+              id="papers-grid"
+              class="grid gap-4 md:gap-5 grid-cols-1 md:grid-cols-2"
+            >
+              ___RESEARCH_PAPERS_PLACEHOLDER___
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div
+      class="fixed bottom-8 right-8 flex flex-col gap-3 z-50 opacity-0 transition-opacity duration-300 pointer-events-none"
+      id="scroll-buttons"
+    >
+      <button
+        onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+        class="w-12 h-12 bg-white text-[#C53030] border-2 border-[#C53030] rounded-full shadow-lg flex items-center justify-center hover:bg-[#C53030] hover:text-white transition-all duration-300 focus:outline-none"
+      >
+        <i class="bx bx-up-arrow-alt text-2xl"></i>
+      </button>
+      <button
+        onclick="
+          window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth',
+          })
+        "
+        class="w-12 h-12 bg-white text-[#C53030] border-2 border-[#C53030] rounded-full shadow-lg flex items-center justify-center hover:bg-[#C53030] hover:text-white transition-all duration-300 focus:outline-none"
+      >
+        <i class="bx bx-down-arrow-alt text-2xl"></i>
+      </button>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/publications.js"></script>
+    <script src="js/loader.js"></script>
+
+    <script>
+      // Scroll Buttons Logic
+      const scrollBtns = document.getElementById("scroll-buttons");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+          scrollBtns.classList.replace("opacity-0", "opacity-100");
+          scrollBtns.classList.replace(
+            "pointer-events-none",
+            "pointer-events-auto",
+          );
+        } else {
+          scrollBtns.classList.replace("opacity-100", "opacity-0");
+          scrollBtns.classList.replace(
+            "pointer-events-auto",
+            "pointer-events-none",
+          );
+        }
+      });
+
+      // Year Filter Logic for Samples
+      document.addEventListener("DOMContentLoaded", () => {
+        const yearBtns = document.querySelectorAll(".year-btn");
+        const yearSections = document.querySelectorAll(".year-section");
+
+        yearBtns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            // Update Active Pill
+            yearBtns.forEach((b) => {
+              b.classList.remove("bg-[#C53030]", "text-white");
+              b.classList.add("bg-white", "text-gray-600");
+            });
+            btn.classList.remove("bg-white", "text-gray-600");
+            btn.classList.add("bg-[#C53030]", "text-white");
+
+            // Filter Sections
+            const targetYear = btn.getAttribute("data-year");
+            yearSections.forEach((section) => {
+              if (
+                targetYear === "All" ||
+                section.getAttribute("data-year") === targetYear
+              ) {
+                section.style.display = "block";
+              } else {
+                section.style.display = "none";
+              }
+            });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
