@@ -23,9 +23,16 @@ async function buildPeoplePage() {
   let cardsHtml = "";
 
   people.forEach((person) => {
+    // Strip leading slash for GitHub Pages compatibility
+    let photoSrc = person.photo_url;
+    if (photoSrc && photoSrc.startsWith("/")) {
+      photoSrc = photoSrc.substring(1);
+    }
+
     // Determine the image markup based on if they have a photo
-    const imageHtml = person.photo_url
-      ? `<img src="${person.photo_url}" alt="${person.name}" class="w-full h-full object-cover ${person.name.includes("Rizk") ? "object-top" : ""}" />`
+    // Includes an onerror fallback that replaces a broken image with the default user icon
+    const imageHtml = photoSrc
+      ? `<img src="${photoSrc}" alt="${person.name}" class="w-full h-full object-cover ${person.name.includes("Rizk") ? "object-top" : ""}" onerror="this.outerHTML='<div class=\\'w-full h-full bg-gray-50 flex items-center justify-center group-hover:bg-red-50 transition-colors duration-300\\'><i class=\\'bx bx-user text-4xl text-gray-300 group-hover:text-[#C53030]\\'></i></div>'"/>`
       : `<div class="w-full h-full bg-gray-50 flex items-center justify-center group-hover:bg-red-50 transition-colors duration-300">
            <i class="bx bx-user text-4xl text-gray-300 group-hover:text-[#C53030]"></i>
          </div>`;
@@ -77,7 +84,7 @@ async function buildPeoplePage() {
   const templatePath = path.join(process.cwd(), "people.template.html");
   const templateHtml = fs.readFileSync(templatePath, "utf8");
 
-  // FIXED: Restored the proper placeholder target
+  // Replaces the exact text placeholder with the dynamically generated HTML
   const finalHtml = templateHtml.replace(
     "___PEOPLE_GRID_PLACEHOLDER___",
     finalGridHtml,

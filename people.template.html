@@ -114,9 +114,48 @@
             </div>
           </div>
         </div>
+
         ___PEOPLE_GRID_PLACEHOLDER___
       </main>
     </div>
+
+    <div
+      class="fixed bottom-8 right-8 flex flex-col gap-3 z-50 opacity-0 transition-opacity duration-300 pointer-events-none"
+      id="scroll-buttons"
+    >
+      <button
+        onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+        class="w-12 h-12 bg-white text-[#C53030] border-2 border-[#C53030] rounded-full shadow-lg flex items-center justify-center hover:bg-[#C53030] hover:text-white transition-all duration-300 focus:outline-none"
+      >
+        <i class="bx bx-up-arrow-alt text-2xl"></i>
+      </button>
+      <button
+        onclick="
+          window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth',
+          })
+        "
+        class="w-12 h-12 bg-white text-[#C53030] border-2 border-[#C53030] rounded-full shadow-lg flex items-center justify-center hover:bg-[#C53030] hover:text-white transition-all duration-300 focus:outline-none"
+      >
+        <i class="bx bx-down-arrow-alt text-2xl"></i>
+      </button>
+    </div>
+
+    <script>
+      const scrollButtons = document.getElementById("scroll-buttons");
+
+      // Show buttons only when user scrolls down a bit
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+          scrollButtons.classList.remove("opacity-0", "pointer-events-none");
+          scrollButtons.classList.add("opacity-100", "pointer-events-auto");
+        } else {
+          scrollButtons.classList.add("opacity-0", "pointer-events-none");
+          scrollButtons.classList.remove("opacity-100", "pointer-events-auto");
+        }
+      });
+    </script>
 
     <div id="footer-placeholder"></div>
 
