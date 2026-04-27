@@ -37,7 +37,7 @@ jobs:
           SUPABASE_ANON_KEY: ${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}
         run: |
           node js/build.js
-          npx tailwindcss -i ./src/input.css -o ./css/output.css --minify
+          npx tailwindcss -i ./css/input.css -o ./css/output.css --minify
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
