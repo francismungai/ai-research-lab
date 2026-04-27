@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "scripts": {
     "tailwind": "npx @tailwindcss/cli -i ./css/input.css -o ./css/output.css --watch",
     "build": "npx @tailwindcss/cli -i ./css/input.css -o ./css/output.css --minify",
