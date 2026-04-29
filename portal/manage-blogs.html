@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Blogs | USD AI Research</title>
+    <link rel="stylesheet" href="../css/output.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* The Cloak: Prevents the flash of unauthenticated content */
+      body {
+        display: none;
+      }
+    </style>
+  </head>
+  <body
+    class="font-sans text-gray-900 bg-gray-50 flex h-screen overflow-hidden"
+  >
+    <aside id="portal-sidebar-placeholder"></aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden relative">
+      <header id="portal-header-placeholder"></header>
+
+      <div class="flex-1 overflow-y-auto p-6 md:p-8">
+        <div class="max-w-6xl mx-auto">
+          <div
+            class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4"
+          >
+            <div>
+              <h1 class="text-2xl font-bold text-gray-900">Blog Posts</h1>
+              <p class="text-sm text-gray-500 mt-1">
+                Review student submissions, manage drafts, and publish articles.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+          >
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr
+                    class="bg-gray-50 border-b border-gray-200 text-xs uppercase text-gray-500 tracking-wider"
+                  >
+                    <th class="p-4 font-semibold">Title & Author</th>
+                    <th class="p-4 font-semibold">Status</th>
+                    <th class="p-4 font-semibold">Date</th>
+                    <th class="p-4 font-semibold text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="blogs-table-body" class="divide-y divide-gray-100">
+                  <tr>
+                    <td colspan="4" class="p-4 text-center text-gray-500">
+                      Loading blog posts...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/portal.js"></script>
+    <script src="../js/manage-blogs.js"></script>
+  </body>
+</html>

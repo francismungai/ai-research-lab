@@ -34,16 +34,29 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const email = document.getElementById("email")?.value.trim();
+      const email = document
+        .getElementById("email")
+        ?.value.trim()
+        .toLowerCase();
       const password = document.getElementById("password")?.value;
       const confirmPassword =
         document.getElementById("confirm-password")?.value;
-      const passwordHint =
-        document.getElementById("password-hint")?.value.trim();
+      const passwordHint = document
+        .getElementById("password-hint")
+        ?.value.trim();
 
       // Validation
       if (!email || !password || !confirmPassword) {
         showToast("Please fill in all required fields.", "error");
+        return;
+      }
+
+      // --- NEW: Client-side Email Domain Validation ---
+      if (!email.endsWith("@usd.edu") && !email.endsWith("@coyotes.usd.edu")) {
+        showToast(
+          "Access Denied: Please use your official USD email address.",
+          "error",
+        );
         return;
       }
 
@@ -74,8 +87,14 @@ document.addEventListener("DOMContentLoaded", () => {
           },
         });
 
+        // If the database trigger fails, this will catch your custom SQL error message!
         if (error) {
-          showToast(error.message, "error");
+          let errorMessage = error.message;
+          // Clean up the error message if Postgres prepends system text to it
+          if (errorMessage.includes("Access Denied:")) {
+            errorMessage = errorMessage.split("Access Denied:")[1].trim();
+          }
+          showToast(errorMessage, "error");
         } else if (
           data?.user?.identities &&
           data.user.identities.length === 0

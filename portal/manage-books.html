@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Books | USD AI Research</title>
+    <link rel="stylesheet" href="../css/output.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* The Cloak: Prevents the flash of unauthenticated content */
+      body {
+        display: none;
+      }
+    </style>
+  </head>
+  <body
+    class="font-sans text-gray-900 bg-gray-50 flex h-screen overflow-hidden"
+  >
+    <aside id="portal-sidebar-placeholder"></aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden relative">
+      <header id="portal-header-placeholder"></header>
+
+      <div class="flex-1 overflow-y-auto p-6 md:p-8">
+        <div class="max-w-6xl mx-auto">
+          <div
+            class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4"
+          >
+            <div>
+              <h1 class="text-2xl font-bold text-gray-900">Books</h1>
+              <p class="text-sm text-gray-500 mt-1">
+                Manage lab textbooks, monographs, and chapters.
+              </p>
+            </div>
+            <button
+              id="add-book-btn"
+              class="bg-[#C53030] text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-[#A52828] transition shadow-sm flex items-center"
+            >
+              <i class="bx bx-plus mr-2 text-lg"></i> Add Book
+            </button>
+          </div>
+
+          <div
+            class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+          >
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr
+                    class="bg-gray-50 border-b border-gray-200 text-xs uppercase text-gray-500 tracking-wider"
+                  >
+                    <th class="p-4 font-semibold">Title & Authors</th>
+                    <th class="p-4 font-semibold">Publisher</th>
+                    <th class="p-4 font-semibold">Year</th>
+                    <th class="p-4 font-semibold text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="books-table-body" class="divide-y divide-gray-100">
+                  <tr>
+                    <td colspan="4" class="p-4 text-center text-gray-500">
+                      Loading books...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="book-modal"
+        class="fixed inset-0 bg-gray-900/50 z-50 hidden flex justify-end"
+      >
+        <div
+          class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col transform transition-transform translate-x-full duration-300"
+          id="book-modal-panel"
+        >
+          <div
+            class="flex justify-between items-center p-6 border-b border-gray-200"
+          >
+            <h2 id="modal-title" class="text-xl font-bold text-gray-900">
+              Add Book
+            </h2>
+            <button
+              id="close-modal-btn"
+              class="text-gray-400 hover:text-gray-600 text-2xl"
+            >
+              <i class="bx bx-x"></i>
+            </button>
+          </div>
+
+          <div class="flex-1 overflow-y-auto p-6">
+            <form id="book-form" class="space-y-4">
+              <input type="hidden" id="book-id" />
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Title *</label
+                >
+                <input
+                  type="text"
+                  id="book-title"
+                  required
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-[#C53030] focus:border-[#C53030] outline-none"
+                  placeholder="Book title"
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Authors *</label
+                >
+                <input
+                  type="text"
+                  id="book-authors"
+                  required
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-[#C53030] focus:border-[#C53030] outline-none"
+                  placeholder="e.g., F. Mungai, K. Santosh"
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Description</label
+                >
+                <textarea
+                  id="book-desc"
+                  rows="3"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-[#C53030] focus:border-[#C53030] outline-none"
+                  placeholder="Brief summary..."
+                ></textarea>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >Publisher</label
+                  >
+                  <input
+                    type="text"
+                    id="book-publisher"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-[#C53030] focus:border-[#C53030] outline-none"
+                    placeholder="e.g., Springer, MIT Press"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >Year</label
+                  >
+                  <input
+                    type="text"
+                    id="book-year"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-[#C53030] focus:border-[#C53030] outline-none"
+                    placeholder="YYYY"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >ISBN</label
+                >
+                <input
+                  type="text"
+                  id="book-isbn"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-[#C53030] focus:border-[#C53030] outline-none"
+                  placeholder="e.g., 978-3-16-148410-0"
+                />
+              </div>
+
+              <div>
+                <label
+                  class="block text-sm font-bold text-gray-700 mb-1.5"
+                  for="book-image-file"
+                >
+                  Book Cover Image
+                </label>
+                <input
+                  id="book-image-file"
+                  type="file"
+                  accept="image/png, image/jpeg, image/webp"
+                  class="w-full px-4 py-2 bg-white/50 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#C53030] focus:border-transparent transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100"
+                />
+                <p class="mt-1.5 text-[11px] font-bold text-gray-500">
+                  Upload a cover (PNG, JPG, or WEBP). It will be saved securely
+                  to the cloud.
+                </p>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Amazon URL</label
+                >
+                <input
+                  type="url"
+                  id="book-amazon-url"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-[#C53030] focus:border-[#C53030] outline-none"
+                  placeholder="https://amazon.com/..."
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Publisher URL</label
+                >
+                <input
+                  type="url"
+                  id="book-publisher-url"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-[#C53030] focus:border-[#C53030] outline-none"
+                  placeholder="https://springer.com/..."
+                />
+              </div>
+            </form>
+          </div>
+
+          <div
+            class="p-6 border-t border-gray-200 bg-gray-50 flex justify-end gap-3"
+          >
+            <button
+              id="cancel-modal-btn"
+              class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+            >
+              Cancel
+            </button>
+            <button
+              id="save-book-btn"
+              class="px-4 py-2 text-sm font-medium text-white bg-[#C53030] rounded-md hover:bg-[#A52828] shadow-sm flex items-center"
+            >
+              Save Book
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/portal.js"></script>
+    <script src="../js/manage-books.js"></script>
+  </body>
+</html>

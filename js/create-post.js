@@ -1,43 +1,65 @@
 /**
  * Create Post Editor Logic
- * Handles markdown editing, live preview, saving drafts, and publishing.
+ * Handles markdown editing, live preview, role-based saving, and publishing.
  */
 document.addEventListener("DOMContentLoaded", async () => {
-  // --- Auth Guard: Redirect if not logged in ---
+  // --- 1. AUTH GUARD & ROLE CHECK ---
   let currentUser = null;
+  let userRole = "user";
+
   try {
     const {
       data: { session },
     } = await supabaseClient.auth.getSession();
     if (!session) {
-      window.location.href = "login.html";
+      window.location.replace("../login.html");
       return;
     }
     currentUser = session.user;
+
+    // Fetch role to know if they are allowed to publish directly
+    const { data: profile } = await supabaseClient
+      .from("profiles")
+      .select("role")
+      .eq("id", currentUser.id)
+      .single();
+
+    if (profile) userRole = profile.role;
+
+    // Uncloak the page
+    document.body.style.display = "flex";
   } catch (e) {
-    window.location.href = "login.html";
+    window.location.replace("../login.html");
     return;
   }
 
-  // --- DOM Elements ---
+  // --- 2. DOM ELEMENTS ---
   const titleInput = document.getElementById("post-title");
+  const slugInput = document.getElementById("post-slug");
   const excerptInput = document.getElementById("post-excerpt");
-  const tagsInput = document.getElementById("post-tags");
   const coverUrlInput = document.getElementById("post-cover-url");
+  const statusSelect = document.getElementById("post-status");
   const contentArea = document.getElementById("post-content");
   const previewContent = document.getElementById("preview-content");
   const saveStatus = document.getElementById("save-status");
+  const btnSave = document.getElementById("btn-save");
 
+  // Tabs & Panels
   const tabWrite = document.getElementById("tab-write");
   const tabPreview = document.getElementById("tab-preview");
   const tabSplit = document.getElementById("tab-split");
   const panelWrite = document.getElementById("panel-write");
   const panelPreview = document.getElementById("panel-preview");
 
-  const btnSaveDraft = document.getElementById("btn-save-draft");
-  const btnPublish = document.getElementById("btn-publish");
+  // Lock the "Published" option for regular students (Contributors)
+  if (userRole === "contributor") {
+    const publishedOption = statusSelect.querySelector(
+      'option[value="published"]',
+    );
+    if (publishedOption) publishedOption.disabled = true;
+  }
 
-  // --- Check if editing existing post (via ?id= query param) ---
+  // --- 3. LOAD EXISTING DATA (IF EDITING) ---
   const urlParams = new URLSearchParams(window.location.search);
   const editingPostId = urlParams.get("id");
   let currentPostId = editingPostId;
@@ -46,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await loadExistingPost(editingPostId);
   }
 
-  // --- Tab Switching ---
+  // --- 4. TAB SWITCHING (From your original JS) ---
   function setActiveTab(activeTab) {
     const tabs = [tabWrite, tabPreview, tabSplit];
     tabs.forEach((tab) => {
@@ -87,7 +109,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // --- Live Preview ---
+  // --- 5. LIVE PREVIEW WITH DEBOUNCE (From your original JS) ---
   function updatePreview() {
     const markdown = contentArea.value;
     if (!markdown.trim()) {
@@ -102,16 +124,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // Update preview on content change (debounced)
   let previewTimeout;
   contentArea.addEventListener("input", () => {
-    // Update save status
     saveStatus.innerHTML =
       '<i class="bx bx-cloud text-sm mr-1"></i>Unsaved changes';
     saveStatus.classList.remove("text-green-500");
     saveStatus.classList.add("text-amber-500");
 
-    // Debounced preview update
     clearTimeout(previewTimeout);
     previewTimeout = setTimeout(() => {
       if (!panelPreview.classList.contains("hidden")) {
@@ -120,7 +139,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }, 300);
   });
 
-  // --- Slug Generator ---
+  // --- 6. AUTO-GENERATE SLUG ---
   function generateSlug(title) {
     return title
       .toLowerCase()
@@ -131,41 +150,34 @@ document.addEventListener("DOMContentLoaded", async () => {
       .substring(0, 80);
   }
 
-  // --- Gather Post Data ---
-  function getPostData(status) {
-    const title = titleInput.value.trim();
-    const content = contentArea.value;
-    const excerpt = excerptInput.value.trim();
-    const coverUrl = coverUrlInput.value.trim();
-    const tagsRaw = tagsInput.value.trim();
-    const tags = tagsRaw
-      ? tagsRaw
-          .split(",")
-          .map((t) => t.trim())
-          .filter(Boolean)
-      : [];
-
-    if (!title) {
-      showToast("Please enter a post title.", "error");
-      return null;
+  titleInput.addEventListener("input", (e) => {
+    // Only auto-generate if we haven't saved the post yet
+    if (!currentPostId) {
+      slugInput.value = generateSlug(e.target.value);
     }
+  });
 
-    const slug = generateSlug(title);
-    if (!slug) {
-      showToast("Title must contain at least one valid character.", "error");
-      return null;
+  // --- 7. SAVE / PUBLISH LOGIC ---
+  btnSave.addEventListener("click", async () => {
+    const title = titleInput.value.trim();
+    const slug = slugInput.value.trim();
+    const content = contentArea.value.trim();
+    const status = statusSelect.value;
+
+    if (!title || !slug || !content) {
+      if (typeof showToast === "function")
+        showToast("Title, Slug, and Content are required.", "error");
+      else alert("Title, Slug, and Content are required.");
+      return;
     }
 
     const postData = {
-      title,
-      slug,
-      content,
-      excerpt,
-      cover_image_url: coverUrl || null,
-      tags,
-      status,
-      author_id: currentUser.id,
-      author_name: currentUser.email,
+      title: title,
+      slug: slug,
+      excerpt: excerptInput.value.trim(),
+      content: content,
+      cover_image_url: coverUrlInput.value.trim() || null,
+      status: status,
       updated_at: new Date().toISOString(),
     };
 
@@ -173,16 +185,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       postData.published_at = new Date().toISOString();
     }
 
-    return postData;
-  }
-
-  // --- Save Draft ---
-  btnSaveDraft.addEventListener("click", async () => {
-    const postData = getPostData("draft");
-    if (!postData) return;
-
-    btnSaveDraft.disabled = true;
-    btnSaveDraft.textContent = "Saving...";
+    const originalHtml = btnSave.innerHTML;
+    btnSave.innerHTML =
+      "<i class='bx bx-loader-alt bx-spin mr-2 text-lg'></i> Saving...";
+    btnSave.disabled = true;
 
     try {
       let result;
@@ -196,6 +202,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           .single();
       } else {
         // Insert new post
+        postData.author_name = currentUser.email.split("@")[0]; // Simple default
         result = await supabaseClient
           .from("blog_posts")
           .insert(postData)
@@ -204,18 +211,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       if (result.error) {
-        // Handle duplicate slug
         if (result.error.code === "23505") {
-          showToast(
-            "A post with this title already exists. Try a different title.",
-            "error",
-          );
+          if (typeof showToast === "function")
+            showToast("A post with this URL slug already exists.", "error");
         } else {
-          showToast("Error saving: " + result.error.message, "error");
+          if (typeof showToast === "function")
+            showToast("Error saving: " + result.error.message, "error");
         }
       } else {
         currentPostId = result.data.id;
-        // Update URL without reload
+
         if (!editingPostId) {
           window.history.replaceState(
             {},
@@ -223,77 +228,29 @@ document.addEventListener("DOMContentLoaded", async () => {
             `create-post.html?id=${currentPostId}`,
           );
         }
+
         saveStatus.innerHTML =
-          '<i class="bx bx-cloud-upload text-sm mr-1"></i>Draft saved';
+          '<i class="bx bx-check-circle text-sm mr-1"></i>Saved';
         saveStatus.classList.remove("text-amber-500");
         saveStatus.classList.add("text-green-500");
-        showToast("Draft saved!", "success");
+
+        const successMsg =
+          status === "published"
+            ? "Post published live!"
+            : "Draft saved securely.";
+        if (typeof showToast === "function") showToast(successMsg, "success");
       }
     } catch (err) {
-      showToast("Error saving draft.", "error");
       console.error(err);
+      if (typeof showToast === "function")
+        showToast("Critical error saving post.", "error");
+    } finally {
+      btnSave.innerHTML = originalHtml;
+      btnSave.disabled = false;
     }
-
-    btnSaveDraft.disabled = false;
-    btnSaveDraft.textContent = "Save Draft";
   });
 
-  // --- Publish ---
-  btnPublish.addEventListener("click", async () => {
-    const postData = getPostData("published");
-    if (!postData) return;
-
-    if (!postData.content.trim()) {
-      showToast("Please write some content before publishing.", "error");
-      return;
-    }
-
-    btnPublish.disabled = true;
-    btnPublish.textContent = "Publishing...";
-
-    try {
-      let result;
-      if (currentPostId) {
-        result = await supabaseClient
-          .from("blog_posts")
-          .update(postData)
-          .eq("id", currentPostId)
-          .select()
-          .single();
-      } else {
-        result = await supabaseClient
-          .from("blog_posts")
-          .insert(postData)
-          .select()
-          .single();
-      }
-
-      if (result.error) {
-        if (result.error.code === "23505") {
-          showToast(
-            "A post with this title already exists. Try a different title.",
-            "error",
-          );
-        } else {
-          showToast("Error publishing: " + result.error.message, "error");
-        }
-      } else {
-        showToast("Post published! Redirecting...", "success");
-        setTimeout(() => {
-          window.location.href = "blog.html";
-        }, 1500);
-        return;
-      }
-    } catch (err) {
-      showToast("Error publishing post.", "error");
-      console.error(err);
-    }
-
-    btnPublish.disabled = false;
-    btnPublish.textContent = "Publish";
-  });
-
-  // --- Load Existing Post (for editing) ---
+  // --- 8. LOAD EXISTING POST (HELPER) ---
   async function loadExistingPost(postId) {
     try {
       const { data: post, error } = await supabaseClient
@@ -303,29 +260,33 @@ document.addEventListener("DOMContentLoaded", async () => {
         .single();
 
       if (error || !post) {
-        showToast("Could not load post.", "error");
+        if (typeof showToast === "function")
+          showToast("Could not load post.", "error");
         return;
       }
 
       titleInput.value = post.title || "";
+      slugInput.value = post.slug || "";
       excerptInput.value = post.excerpt || "";
-      tagsInput.value = (post.tags || []).join(", ");
       coverUrlInput.value = post.cover_image_url || "";
       contentArea.value = post.content || "";
+      statusSelect.value = post.status || "draft";
 
       saveStatus.innerHTML =
         '<i class="bx bx-cloud-upload text-sm mr-1"></i>Loaded';
       saveStatus.classList.add("text-green-500");
+
+      updatePreview();
     } catch (err) {
       console.error("Error loading post:", err);
     }
   }
 
-  // --- Keyboard Shortcut: Ctrl+S to save draft ---
+  // --- 9. KEYBOARD SHORTCUT: Ctrl+S ---
   document.addEventListener("keydown", (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === "s") {
       e.preventDefault();
-      btnSaveDraft.click();
+      btnSave.click();
     }
   });
 });

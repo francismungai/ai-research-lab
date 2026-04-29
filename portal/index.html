@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal | USD AI Research</title>
+    <link rel="stylesheet" href="../css/output.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* The Cloak: Prevents the flash of unauthenticated content */
+      body {
+        display: none;
+      }
+    </style>
+  </head>
+  <body
+    class="font-sans text-gray-900 bg-gray-50 flex h-screen overflow-hidden"
+  >
+    <aside id="portal-sidebar-placeholder"></aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden">
+      <header id="portal-header-placeholder"></header>
+
+      <div class="flex-1 overflow-y-auto p-6 md:p-8">
+        <div class="max-w-5xl mx-auto">
+          <h1 class="text-2xl font-bold text-gray-900 mb-6">
+            Welcome to the Portal
+          </h1>
+
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"
+          >
+            <div
+              class="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+            >
+              <div class="flex items-center">
+                <div class="p-3 rounded-lg bg-blue-50 text-blue-600">
+                  <i class="bx bx-news text-2xl"></i>
+                </div>
+                <div class="ml-4">
+                  <p class="text-sm font-medium text-gray-500">My Drafts</p>
+                  <p class="text-2xl font-bold text-gray-900" id="stat-drafts">
+                    -
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 role-restricted hidden"
+              data-allowed-roles="editor,admin"
+            >
+              <div class="flex items-center">
+                <div class="p-3 rounded-lg bg-green-50 text-green-600">
+                  <i class="bx bx-file text-2xl"></i>
+                </div>
+                <div class="ml-4">
+                  <p class="text-sm font-medium text-gray-500">
+                    Total Publications
+                  </p>
+                  <p class="text-2xl font-bold text-gray-900" id="stat-pubs">
+                    -
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 role-restricted hidden"
+              data-allowed-roles="admin"
+            >
+              <div class="flex items-center">
+                <div class="p-3 rounded-lg bg-purple-50 text-purple-600">
+                  <i class="bx bx-group text-2xl"></i>
+                </div>
+                <div class="ml-4">
+                  <p class="text-sm font-medium text-gray-500">
+                    Active Members
+                  </p>
+                  <p class="text-2xl font-bold text-gray-900" id="stat-members">
+                    -
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8"
+          >
+            <h2 class="text-lg font-bold text-gray-900 mb-4">
+              Getting Started
+            </h2>
+            <p class="text-gray-600 mb-4">
+              Use the sidebar to navigate your authorized tools. Any changes
+              made to the database (like updating a publication or a lab
+              member's profile) will automatically trigger a rebuild of the
+              public-facing static site.
+            </p>
+            <p class="text-gray-600">
+              Please allow 1-2 minutes for GitHub Pages to reflect changes live
+              after saving.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/portal.js"></script>
+  </body>
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>System Users | USD AI Research</title>
+    <link rel="stylesheet" href="../css/output.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        display: none;
+      }
+    </style>
+  </head>
+  <body
+    class="font-sans text-gray-900 bg-gray-50 flex h-screen overflow-hidden"
+  >
+    <aside id="portal-sidebar-placeholder"></aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden relative">
+      <header id="portal-header-placeholder"></header>
+
+      <div class="flex-1 overflow-y-auto p-6 md:p-8">
+        <div class="max-w-4xl mx-auto">
+          <div class="mb-6">
+            <h1 class="text-2xl font-bold text-gray-900">
+              System Users & Roles
+            </h1>
+            <p class="text-sm text-gray-500 mt-1">
+              Control who has access to the portal and what permissions they
+              hold.
+            </p>
+          </div>
+
+          <div
+            class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+          >
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr
+                    class="bg-gray-50 border-b border-gray-200 text-xs uppercase text-gray-500 tracking-wider"
+                  >
+                    <th class="p-4 font-semibold">User Identification</th>
+                    <th class="p-4 font-semibold w-48">Access Role</th>
+                  </tr>
+                </thead>
+                <tbody id="users-table-body" class="divide-y divide-gray-100">
+                  <tr>
+                    <td colspan="2" class="p-4 text-center text-gray-500">
+                      Loading system users...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div
+            class="mt-6 p-4 bg-blue-50 text-blue-800 text-sm rounded-lg border border-blue-100"
+          >
+            <h4 class="font-bold mb-2">
+              <i class="bx bx-info-circle mr-1"></i> Role Guide
+            </h4>
+            <ul class="space-y-1 list-disc pl-5">
+              <li>
+                <strong>User:</strong> Has no access to the portal (Default for
+                new signups).
+              </li>
+              <li>
+                <strong>Contributor:</strong> Can write and save blog posts as
+                "In Review", but cannot publish or manage site data.
+              </li>
+              <li>
+                <strong>Editor:</strong> Can approve/publish blog posts and
+                manage Publications and Books.
+              </li>
+              <li>
+                <strong>Admin:</strong> Has full control, including managing
+                People and System Roles.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/portal.js"></script>
+    <script src="../js/manage-users.js"></script>
+  </body>
+</html>
