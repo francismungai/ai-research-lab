@@ -1,7 +1,7 @@
 // scripts/download-assets.js
-const { createClient } = require("@supabase/supabase-js");
-const fs = require("fs");
-const path = require("path");
+import { createClient } from "@supabase/supabase-js";
+import fs from "fs";
+import path from "path";
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
@@ -14,25 +14,24 @@ if (!supabaseUrl || !supabaseKey) {
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // --- ASSET CONFIGURATION ---
-// Add any new tables and buckets here in the future
 const ASSET_CONFIGS = [
   {
     tableName: "books",
     urlColumn: "image_url",
     bucketName: "book-covers",
-    localPath: "../assets/books",
+    localPath: "assets/books", // Relative to project root
   },
   {
     tableName: "people",
     urlColumn: "photo_url",
     bucketName: "people-photos",
-    localPath: "../assets/people",
+    localPath: "assets/people", // Relative to project root
   },
   {
     tableName: "blog_posts",
     urlColumn: "cover_image_url",
     bucketName: "blog-covers",
-    localPath: "../assets/blog",
+    localPath: "assets/blog", // Relative to project root
   },
 ];
 
@@ -51,15 +50,15 @@ async function downloadAllAssets() {
       continue; // Skip to the next config if this one fails
     }
 
-    // 2. Ensure the local directory exists
-    const dir = path.join(__dirname, config.localPath);
+    // 2. Ensure the local directory exists using process.cwd() for ESM compatibility
+    const dir = path.join(process.cwd(), config.localPath);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
     // 3. Process each record
     for (const record of records) {
       const fileUrl = record[config.urlColumn];
 
-      // Check if the URL is a Supabase storage URL to avoid trying to download external placeholders
+      // Check if the URL is a Supabase storage URL to avoid downloading external placeholders
       if (
         fileUrl &&
         fileUrl.includes(
