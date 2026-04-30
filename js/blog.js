@@ -77,13 +77,31 @@ function renderPostCard(post) {
 
   const excerpt = post.excerpt || "";
 
-  const coverHtml = post.cover_image_url
-    ? `<div class="h-44 overflow-hidden">
-         <img src="${post.cover_image_url}" alt="${post.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-       </div>`
-    : `<div class="h-44 bg-linear-to-br from-red-50 to-gray-100 flex items-center justify-center">
+  // --- LOCAL ASSETS ROUTING WITH CLOUD FALLBACK ---
+  let coverHtml = "";
+  if (post.cover_image_url) {
+    // 1. Extract the filename from the end of the Supabase URL
+    const filename = post.cover_image_url.split("/").pop();
+    // 2. Build the local path relative to the public HTML file
+    const localImagePath = `assets/blog/${filename}`;
+
+    // 3. Render the image. If the local file fails to load, fallback to the cloud URL!
+    coverHtml = `
+      <div class="h-44 overflow-hidden">
+         <img 
+            src="${localImagePath}" 
+            onerror="this.onerror=null; this.src='${post.cover_image_url}';" 
+            alt="${post.title}" 
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+         />
+       </div>`;
+  } else {
+    // Default placeholder if no cover image exists
+    coverHtml = `
+      <div class="h-44 bg-linear-to-br from-red-50 to-gray-100 flex items-center justify-center">
          <i class="bx bx-file-blank text-5xl text-gray-300"></i>
        </div>`;
+  }
 
   return `
     <a href="blog-post.html?slug=${post.slug}" class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-[#C53030] transition-all duration-300 flex flex-col">

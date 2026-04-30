@@ -1,0 +1,7 @@
+Add file upload support and refactor asset downloading
+
+* Implement local file upload for blog post covers and people profile photos
+* Add `blog-post.html` and `js/blog-post.js` for rendering individual blog posts
+* Refactor `scripts/download-assets.js` to download and cache images for books, people, and blogs from Supabase
+* Update `.github/workflows/deploy.yml` to support new asset downloads
+* Minor placeholder updates in book and publication management portals

@@ -20,12 +20,16 @@ async function buildPeoplePage() {
 
   let cardsHtml = "";
   people.forEach((person) => {
-    let photoSrc = person.photo_url;
-    if (photoSrc && photoSrc.startsWith("/")) photoSrc = photoSrc.substring(1);
+    let imageHtml = "";
 
-    const imageHtml = photoSrc
-      ? `<img src="${photoSrc}" alt="${person.name}" class="w-full h-full object-cover ${person.name.includes("Rizk") ? "object-top" : ""}" onerror="this.outerHTML='<div class=\\'w-full h-full bg-gray-50 flex items-center justify-center group-hover:bg-red-50 transition-colors duration-300\\'><i class=\\'bx bx-user text-4xl text-gray-300 group-hover:text-[#C53030]\\'></i></div>'"/>`
-      : `<div class="w-full h-full bg-gray-50 flex items-center justify-center group-hover:bg-red-50 transition-colors duration-300"><i class="bx bx-user text-4xl text-gray-300 group-hover:text-[#C53030]"></i></div>`;
+    // --- LOCAL ASSET ROUTING WITH FALLBACK ---
+    if (person.photo_url) {
+      const filename = person.photo_url.split("/").pop();
+      const localImagePath = `assets/people/${filename}`;
+      imageHtml = `<img src="${localImagePath}" onerror="this.onerror=null; this.src='${person.photo_url}';" alt="${person.name}" class="w-full h-full object-cover ${person.name.includes("Rizk") ? "object-top" : ""}"/>`;
+    } else {
+      imageHtml = `<div class="w-full h-full bg-gray-50 flex items-center justify-center group-hover:bg-red-50 transition-colors duration-300"><i class="bx bx-user text-4xl text-gray-300 group-hover:text-[#C53030]"></i></div>`;
+    }
 
     let linksHtml = "";
     if (person.scholar_url || person.dblp_url) {
@@ -51,7 +55,15 @@ async function buildPeoplePage() {
       </div>`;
   });
 
-  const finalGridHtml = `<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12" id="people-grid">${cardsHtml}</div>`;
+  // Inject the count display at the bottom of the grid
+  const countHtml = `
+    <div class="col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-4 mt-8 border-t border-gray-200 pt-8 flex flex-col items-center">
+      <div class="text-sm text-gray-500 font-bold tracking-wide">Showing ${people.length} people</div>
+    </div>
+  `;
+
+  const finalGridHtml = `<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12" id="people-grid">${cardsHtml}${countHtml}</div>`;
+
   const templatePath = path.join(process.cwd(), "people.template.html");
   if (fs.existsSync(templatePath)) {
     const templateHtml = fs.readFileSync(templatePath, "utf8");
@@ -81,12 +93,17 @@ async function buildPublicationsPage() {
 
   let booksHtml = "";
   books.forEach((book) => {
-    let photoSrc = book.image_url;
-    if (photoSrc && photoSrc.startsWith("/")) photoSrc = photoSrc.substring(1);
+    // Local image routing for books
+    let imageHtml = "";
+    if (book.image_url) {
+      const filename = book.image_url.split("/").pop();
+      const localImagePath = `assets/books/${filename}`;
+      imageHtml = `<img src="${localImagePath}" onerror="this.onerror=null; this.src='${book.image_url}';" alt="${book.title}" class="h-48 md:h-56 lg:h-64 w-auto rounded-lg object-contain bg-white/50 p-2 border border-gray-200"/>`;
+    }
 
     booksHtml += `
       <a href="${book.amazon_url || book.publisher_url || "#"}" target="_blank" class="shrink-0 snap-start transition-transform duration-300 hover:-translate-y-2 hover:drop-shadow-xl">
-        <img src="${photoSrc}" alt="${book.title}" class="h-48 md:h-56 lg:h-64 w-auto rounded-lg object-contain bg-white/50 p-2 border border-gray-200" onerror="this.style.display='none'"/>
+        ${imageHtml}
       </a>`;
   });
 

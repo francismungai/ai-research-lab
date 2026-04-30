@@ -13,57 +13,88 @@ if (!supabaseUrl || !supabaseKey) {
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-async function downloadCovers() {
-  // 1. Fetch only books that actually have an image URL
-  const { data: books, error } = await supabase
-    .from("books")
-    .select("image_url")
-    .not("image_url", "is", null);
+// --- ASSET CONFIGURATION ---
+// Add any new tables and buckets here in the future
+const ASSET_CONFIGS = [
+  {
+    tableName: "books",
+    urlColumn: "image_url",
+    bucketName: "book-covers",
+    localPath: "../assets/books",
+  },
+  {
+    tableName: "people",
+    urlColumn: "photo_url",
+    bucketName: "people-photos",
+    localPath: "../assets/people",
+  },
+  {
+    tableName: "blog_posts",
+    urlColumn: "cover_image_url",
+    bucketName: "blog-covers",
+    localPath: "../assets/blog",
+  },
+];
 
-  if (error) {
-    console.error("Error fetching books:", error);
-    process.exit(1);
-  }
+async function downloadAllAssets() {
+  for (const config of ASSET_CONFIGS) {
+    console.log(`\n--- Processing ${config.tableName} ---`);
 
-  // 2. Ensure the local assets/books directory exists
-  const dir = path.join(__dirname, "../assets/books");
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    // 1. Fetch only records that actually have an image URL
+    const { data: records, error } = await supabase
+      .from(config.tableName)
+      .select(config.urlColumn)
+      .not(config.urlColumn, "is", null);
 
-  // 3. Process each book
-  for (const book of books) {
-    // Check if the URL is a Supabase storage URL to avoid trying to download external placeholder links
-    if (
-      book.image_url.includes(
-        "supabase.co/storage/v1/object/public/book-covers/",
-      )
-    ) {
-      // Extract just the filename from the end of the URL
-      const filename = book.image_url.split("/").pop();
-      const filePath = path.join(dir, filename);
+    if (error) {
+      console.error(`Error fetching ${config.tableName}:`, error);
+      continue; // Skip to the next config if this one fails
+    }
 
-      // THE CACHE CHECK: If it exists, skip it!
-      if (fs.existsSync(filePath)) {
-        console.log(`Skipping: ${filename} (Already cached)`);
-        continue;
+    // 2. Ensure the local directory exists
+    const dir = path.join(__dirname, config.localPath);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+
+    // 3. Process each record
+    for (const record of records) {
+      const fileUrl = record[config.urlColumn];
+
+      // Check if the URL is a Supabase storage URL to avoid trying to download external placeholders
+      if (
+        fileUrl &&
+        fileUrl.includes(
+          `supabase.co/storage/v1/object/public/${config.bucketName}/`,
+        )
+      ) {
+        // Extract just the filename from the end of the URL
+        const filename = fileUrl.split("/").pop();
+        const filePath = path.join(dir, filename);
+
+        // THE CACHE CHECK: If it exists, skip it!
+        if (fs.existsSync(filePath)) {
+          console.log(`Skipping: ${filename} (Already cached)`);
+          continue;
+        }
+
+        // Otherwise, download the new image
+        console.log(`Downloading: ${filename}...`);
+        const { data, error: downloadError } = await supabase.storage
+          .from(config.bucketName)
+          .download(filename);
+
+        if (downloadError) {
+          console.error(`Failed to download ${filename}:`, downloadError);
+          continue;
+        }
+
+        // Save to the local assets folder
+        const buffer = Buffer.from(await data.arrayBuffer());
+        fs.writeFileSync(filePath, buffer);
+        console.log(`Saved: ${filename}`);
       }
-
-      // Otherwise, download the new image
-      console.log(`Downloading: ${filename}...`);
-      const { data, error: downloadError } = await supabase.storage
-        .from("book-covers")
-        .download(filename);
-
-      if (downloadError) {
-        console.error(`Failed to download ${filename}:`, downloadError);
-        continue; // Skip to the next one if it fails
-      }
-
-      // Save to the local assets folder
-      const buffer = Buffer.from(await data.arrayBuffer());
-      fs.writeFileSync(filePath, buffer);
-      console.log(`Saved: ${filename}`);
     }
   }
+  console.log("\nAll asset downloads complete!");
 }
 
-downloadCovers();
+downloadAllAssets();

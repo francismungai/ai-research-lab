@@ -31,14 +31,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # --- NEW: Cache Step ---
+      # Cache Step
       - name: Cache Supabase Assets
         uses: actions/cache@v3
         with:
-          path: assets/books/
-          key: supabase-book-covers-${{ github.run_id }}
+          # Cache the entire assets folder
+          path: assets/
+          key: supabase-assets-${{ github.run_id }}
           restore-keys: |
-            supabase-book-covers-
+            supabase-assets-
 
       - name: Build Static Data and CSS
         env:

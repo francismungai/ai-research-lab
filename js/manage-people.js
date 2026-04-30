@@ -131,12 +131,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       modal.classList.add("hidden");
       form.reset();
       document.getElementById("person-id").value = "";
+      document.getElementById("person-photo-file").value = ""; // Clear file input
     }, 300);
   }
 
   document.getElementById("add-person-btn").addEventListener("click", () => {
     form.reset();
     document.getElementById("person-id").value = "";
+    document.getElementById("person-photo-file").value = ""; // Clear file input
     openModal(false);
   });
 
@@ -151,7 +153,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (e.target === modal) closeModal();
   });
 
-  // --- 5. CREATE / UPDATE (UPSERT) ---
+  // --- 5. CREATE / UPDATE (UPSERT) WITH IMAGE UPLOAD ---
   saveBtn.addEventListener("click", async () => {
     if (!form.checkValidity()) {
       form.reportValidity();
@@ -159,18 +161,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const id = document.getElementById("person-id").value;
-    const personData = {
-      name: document.getElementById("person-name").value.trim(),
-      category: document.getElementById("person-category").value,
-      role: document.getElementById("person-role").value.trim(),
-      photo_url: document.getElementById("person-photo-url").value.trim(),
-      scholar_url: document.getElementById("person-scholar").value.trim(),
-      dblp_url: document.getElementById("person-dblp").value.trim(),
-      website_url: document.getElementById("person-website").value.trim(),
-      degree: document.getElementById("person-degree").value.trim(),
-      grad_year: document.getElementById("person-grad-year").value.trim(),
-      member_key: document.getElementById("person-member-key").value.trim(),
-    };
+    const fileInput = document.getElementById("person-photo-file");
+    let finalPhotoUrl = "";
 
     const originalText = saveBtn.innerHTML;
     saveBtn.innerHTML =
@@ -178,6 +170,54 @@ document.addEventListener("DOMContentLoaded", async () => {
     saveBtn.disabled = true;
 
     try {
+      // 1. Determine existing image URL if editing
+      if (id) {
+        const existingPerson = window.peopleData.find((p) => p.id === id);
+        if (existingPerson && existingPerson.photo_url) {
+          finalPhotoUrl = existingPerson.photo_url;
+        }
+      }
+
+      // 2. Upload new image to Supabase Storage (if a file was selected)
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const fileExt = file.name.split(".").pop();
+        // Generate a unique filename: timestamp + random string + extension
+        const uniqueFileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
+
+        const { error: uploadError } = await supabaseClient.storage
+          .from("people-photos")
+          .upload(uniqueFileName, file, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+
+        if (uploadError)
+          throw new Error(`Image upload failed: ${uploadError.message}`);
+
+        // Retrieve the public URL for the newly uploaded file
+        const { data: publicUrlData } = supabaseClient.storage
+          .from("people-photos")
+          .getPublicUrl(uniqueFileName);
+
+        finalPhotoUrl = publicUrlData.publicUrl;
+      }
+
+      // 3. Prepare data for database insertion
+      const personData = {
+        name: document.getElementById("person-name").value.trim(),
+        category: document.getElementById("person-category").value,
+        role: document.getElementById("person-role").value.trim(),
+        photo_url: finalPhotoUrl, // The new upload URL, or the preserved old one
+        scholar_url: document.getElementById("person-scholar").value.trim(),
+        dblp_url: document.getElementById("person-dblp").value.trim(),
+        website_url: document.getElementById("person-website").value.trim(),
+        degree: document.getElementById("person-degree").value.trim(),
+        grad_year: document.getElementById("person-grad-year").value.trim(),
+        member_key: document.getElementById("person-member-key").value.trim(),
+      };
+
+      // 4. Save to Database
       let response;
       if (id) {
         response = await supabaseClient
@@ -211,7 +251,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("person-name").value = person.name || "";
     document.getElementById("person-category").value = person.category || "";
     document.getElementById("person-role").value = person.role || "";
-    document.getElementById("person-photo-url").value = person.photo_url || "";
+    // Clear the file input field so the user doesn't accidentally upload the same file again
+    document.getElementById("person-photo-file").value = "";
     document.getElementById("person-scholar").value = person.scholar_url || "";
     document.getElementById("person-dblp").value = person.dblp_url || "";
     document.getElementById("person-website").value = person.website_url || "";

@@ -37,12 +37,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   const titleInput = document.getElementById("post-title");
   const slugInput = document.getElementById("post-slug");
   const excerptInput = document.getElementById("post-excerpt");
-  const coverUrlInput = document.getElementById("post-cover-url");
+  const coverFileInput = document.getElementById("post-cover-file"); // Updated to file input
   const statusSelect = document.getElementById("post-status");
   const contentArea = document.getElementById("post-content");
   const previewContent = document.getElementById("preview-content");
   const saveStatus = document.getElementById("save-status");
   const btnSave = document.getElementById("btn-save");
+
+  // Track the existing cover URL so we don't overwrite it if the user doesn't upload a new one
+  let existingCoverUrl = "";
 
   // Tabs & Panels
   const tabWrite = document.getElementById("tab-write");
@@ -68,7 +71,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await loadExistingPost(editingPostId);
   }
 
-  // --- 4. TAB SWITCHING (From your original JS) ---
+  // --- 4. TAB SWITCHING ---
   function setActiveTab(activeTab) {
     const tabs = [tabWrite, tabPreview, tabSplit];
     tabs.forEach((tab) => {
@@ -109,7 +112,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // --- 5. LIVE PREVIEW WITH DEBOUNCE (From your original JS) ---
+  // --- 5. LIVE PREVIEW WITH DEBOUNCE ---
   function updatePreview() {
     const markdown = contentArea.value;
     if (!markdown.trim()) {
@@ -151,7 +154,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   titleInput.addEventListener("input", (e) => {
-    // Only auto-generate if we haven't saved the post yet
     if (!currentPostId) {
       slugInput.value = generateSlug(e.target.value);
     }
@@ -163,6 +165,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const slug = slugInput.value.trim();
     const content = contentArea.value.trim();
     const status = statusSelect.value;
+    let finalCoverUrl = existingCoverUrl; // Default to existing URL if no new file is uploaded
 
     if (!title || !slug || !content) {
       if (typeof showToast === "function")
@@ -171,26 +174,51 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    const postData = {
-      title: title,
-      slug: slug,
-      excerpt: excerptInput.value.trim(),
-      content: content,
-      cover_image_url: coverUrlInput.value.trim() || null,
-      status: status,
-      updated_at: new Date().toISOString(),
-    };
-
-    if (status === "published") {
-      postData.published_at = new Date().toISOString();
-    }
-
     const originalHtml = btnSave.innerHTML;
     btnSave.innerHTML =
       "<i class='bx bx-loader-alt bx-spin mr-2 text-lg'></i> Saving...";
     btnSave.disabled = true;
 
     try {
+      // --- IMAGE UPLOAD LOGIC ---
+      if (coverFileInput.files.length > 0) {
+        const file = coverFileInput.files[0];
+        const fileExt = file.name.split(".").pop();
+        const uniqueFileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
+
+        const { error: uploadError } = await supabaseClient.storage
+          .from("blog-covers")
+          .upload(uniqueFileName, file, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+
+        if (uploadError)
+          throw new Error(`Image upload failed: ${uploadError.message}`);
+
+        const { data: publicUrlData } = supabaseClient.storage
+          .from("blog-covers")
+          .getPublicUrl(uniqueFileName);
+
+        finalCoverUrl = publicUrlData.publicUrl;
+        existingCoverUrl = finalCoverUrl; // Update state in case they hit save again
+      }
+
+      // --- DATABASE LOGIC ---
+      const postData = {
+        title: title,
+        slug: slug,
+        excerpt: excerptInput.value.trim(),
+        content: content,
+        cover_image_url: finalCoverUrl || null, // Ensure empty strings become true nulls
+        status: status,
+        updated_at: new Date().toISOString(),
+      };
+
+      if (status === "published") {
+        postData.published_at = new Date().toISOString();
+      }
+
       let result;
       if (currentPostId) {
         // Update existing post
@@ -243,10 +271,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (err) {
       console.error(err);
       if (typeof showToast === "function")
-        showToast("Critical error saving post.", "error");
+        showToast(err.message || "Critical error saving post.", "error");
     } finally {
       btnSave.innerHTML = originalHtml;
       btnSave.disabled = false;
+      coverFileInput.value = ""; // Clear the file input after successful save so they don't re-upload it
     }
   });
 
@@ -268,7 +297,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       titleInput.value = post.title || "";
       slugInput.value = post.slug || "";
       excerptInput.value = post.excerpt || "";
-      coverUrlInput.value = post.cover_image_url || "";
+      existingCoverUrl = post.cover_image_url || ""; // Save the URL state
       contentArea.value = post.content || "";
       statusSelect.value = post.status || "draft";
 

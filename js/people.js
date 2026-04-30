@@ -7,7 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const alphaButtons = filtersContainer.querySelectorAll(
     ".hide-scrollbar button",
   );
-  const peopleCards = document.querySelectorAll(".grid > div.group"); // Selects all the people cards
+
+  // UPDATED: Now targeting the dynamically generated '.person-card' class
+  const peopleCards = document.querySelectorAll(".person-card");
 
   // 2. State variables
   let activeRole = "All";
