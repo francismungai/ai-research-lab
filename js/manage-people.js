@@ -79,13 +79,25 @@ document.addEventListener("DOMContentLoaded", async () => {
         const badgeClass =
           catColors[person.category] || "bg-gray-100 text-gray-800";
 
+        // --- PATH FIX: Handle local paths inside the portal ---
+        let resolvedImgSrc = "";
+        if (person.photo_url) {
+          if (person.photo_url.startsWith("http")) {
+            resolvedImgSrc = person.photo_url; // It's a cloud upload, use it directly
+          } else if (person.photo_url.startsWith("/")) {
+            resolvedImgSrc = `..${person.photo_url}`; // Remove leading slash context
+          } else {
+            resolvedImgSrc = `../${person.photo_url}`; // Prepend with folder up command
+          }
+        }
+
         return `
       <tr class="hover:bg-gray-50 transition border-b border-gray-100 last:border-0">
         <td class="p-4">
           <div class="flex items-center gap-3">
             ${
-              person.photo_url
-                ? `<img src="${person.photo_url}" alt="Photo" class="w-10 h-10 rounded-full object-cover shadow-sm bg-gray-200" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(person.name)}&background=random'">`
+              resolvedImgSrc
+                ? `<img src="${resolvedImgSrc}" alt="Photo" class="w-10 h-10 rounded-full object-cover shadow-sm bg-gray-200" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(person.name)}&background=random'">`
                 : `<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-sm font-bold shadow-sm">${person.name.charAt(0)}</div>`
             }
             <div>
