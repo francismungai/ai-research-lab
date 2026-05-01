@@ -98,11 +98,15 @@ async function buildPublicationsPage() {
     if (book.image_url) {
       const filename = book.image_url.split("/").pop();
       const localImagePath = `assets/books/${filename}`;
-      imageHtml = `<img src="${localImagePath}" onerror="this.onerror=null; this.src='${book.image_url}';" alt="${book.title}" class="h-48 md:h-56 lg:h-64 w-auto rounded-lg object-contain bg-white/50 p-2 border border-gray-200"/>`;
+      // Added min-width so broken images don't collapse to 0 pixels
+      imageHtml = `<img src="${localImagePath}" onerror="this.onerror=null; this.src='${book.image_url}';" alt="${book.title}" class="h-48 md:h-56 lg:h-64 w-auto rounded-lg object-contain bg-white/50 p-2 border border-gray-200" style="min-width: 130px;"/>`;
+    } else {
+      // Fallback placeholder for books with no image URL
+      imageHtml = `<div class="h-48 md:h-56 lg:h-64 w-[130px] md:w-[150px] rounded-lg bg-gray-50 border border-gray-200 flex flex-col items-center justify-center p-3 text-center shadow-sm"><i class='bx bx-book-content text-4xl text-gray-300 mb-2'></i><span class="text-xs font-bold text-gray-500 line-clamp-3">${book.title}</span></div>`;
     }
 
     booksHtml += `
-      <a href="${book.amazon_url || book.publisher_url || "#"}" target="_blank" class="shrink-0 snap-start transition-transform duration-300 hover:-translate-y-2 hover:drop-shadow-xl">
+      <a href="${book.amazon_url || book.publisher_url || "#"}" target="_blank" class="shrink-0 snap-start transition-transform duration-300 hover:-translate-y-2 hover:drop-shadow-xl flex">
         ${imageHtml}
       </a>`;
   });
