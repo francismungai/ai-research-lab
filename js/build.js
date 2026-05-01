@@ -9,14 +9,44 @@ const supabase = createClient(
 
 async function buildPeoplePage() {
   console.log("Fetching people from Supabase...");
-  const { data: people, error } = await supabase
-    .from("people")
-    .select("*")
-    .order("name");
+  // 1. Fetch all people without strict database sorting, we will sort in memory
+  const { data: people, error } = await supabase.from("people").select("*");
+
   if (error) {
     console.error("Error fetching people:", error);
     return;
   }
+
+  // 2. The Intelligent Multi-Tier Sorting Algorithm
+  const categoryWeights = {
+    faculty: 1,
+    staff: 2,
+    collaborator: 3,
+    student: 4,
+    alumni: 5,
+  };
+
+  people.sort((a, b) => {
+    // Tier 1: Member Key (Lowest number wins. If empty, treat as 9999 so they go lower)
+    const keyA = a.member_key ? parseInt(a.member_key) || 9999 : 9999;
+    const keyB = b.member_key ? parseInt(b.member_key) || 9999 : 9999;
+    if (keyA !== keyB) return keyA - keyB;
+
+    // Tier 2: Category Hierarchy (Faculty first, Alumni last)
+    const catA = categoryWeights[a.category] || 99;
+    const catB = categoryWeights[b.category] || 99;
+    if (catA !== catB) return catA - catB;
+
+    // Tier 3: Photo Presence (People with photos go above people without photos)
+    const photoA = a.photo_url ? 0 : 1;
+    const photoB = b.photo_url ? 0 : 1;
+    if (photoA !== photoB) return photoA - photoB;
+
+    // Tier 4: Alphabetical tie-breaker
+    const nameA = a.name ? a.name.toLowerCase() : "";
+    const nameB = b.name ? b.name.toLowerCase() : "";
+    return nameA.localeCompare(nameB);
+  });
 
   let cardsHtml = "";
   people.forEach((person) => {
