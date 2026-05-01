@@ -19,10 +19,12 @@
         scrollbar-width: none;
       }
     </style>
-  </head>
+      <link rel="preload" as="image" href="assets/icons/logo-BHzomKBk.svg" />
+    <link rel="preload" as="image" href="assets/backgrounds/building-bg.webp" />
+</head>
   <body
     class="font-sans text-gray-900 bg-cover bg-center bg-fixed bg-no-repeat"
-    style="background-image: url(&quot;assets/backgrounds/building-bg.jpeg&quot;)"
+    style="background-image: url(&quot;assets/backgrounds/building-bg.webp&quot;)"
   >
     <div id="navbar-placeholder" class="min-h-16 sticky top-0 z-50"></div>
 
@@ -57,8 +59,7 @@
                 target="_blank"
                 class="shrink-0 snap-start transition-transform duration-300 hover:-translate-y-2 hover:drop-shadow-xl"
               >
-                <img
-                  src="assets/books/book3.png"
+                <img loading="lazy" decoding="async" src="assets/books/book3.webp"
                   alt="Book cover"
                   class="h-48 md:h-56 lg:h-64 w-auto rounded-lg object-contain bg-white/50 p-2 border border-gray-200"
                 />
@@ -68,8 +69,7 @@
                 target="_blank"
                 class="shrink-0 snap-start transition-transform duration-300 hover:-translate-y-2 hover:drop-shadow-xl"
               >
-                <img
-                  src="assets/books/book-crackML.png"
+                <img loading="lazy" decoding="async" src="assets/books/book-crackML.webp"
                   alt="Book cover"
                   class="h-48 md:h-56 lg:h-64 w-auto rounded-lg object-contain bg-white/50 p-2 border border-gray-200"
                 />
@@ -79,8 +79,7 @@
                 target="_blank"
                 class="shrink-0 snap-start transition-transform duration-300 hover:-translate-y-2 hover:drop-shadow-xl"
               >
-                <img
-                  src="assets/books/book5.png"
+                <img loading="lazy" decoding="async" src="assets/books/book5.webp"
                   alt="Book cover"
                   class="h-48 md:h-56 lg:h-64 w-auto rounded-lg object-contain bg-white/50 p-2 border border-gray-200"
                 />
@@ -90,8 +89,7 @@
                 target="_blank"
                 class="shrink-0 snap-start transition-transform duration-300 hover:-translate-y-2 hover:drop-shadow-xl"
               >
-                <img
-                  src="assets/books/book2.png"
+                <img loading="lazy" decoding="async" src="assets/books/book2.webp"
                   alt="Book cover"
                   class="h-48 md:h-56 lg:h-64 w-auto rounded-lg object-contain bg-white/50 p-2 border border-gray-200"
                 />
@@ -101,8 +99,7 @@
                 target="_blank"
                 class="shrink-0 snap-start transition-transform duration-300 hover:-translate-y-2 hover:drop-shadow-xl"
               >
-                <img
-                  src="assets/books/book-ai-ml-healthcare.png"
+                <img loading="lazy" decoding="async" src="assets/books/book-ai-ml-healthcare.webp"
                   alt="Book cover"
                   class="h-48 md:h-56 lg:h-64 w-auto rounded-lg object-contain bg-white/50 p-2 border border-gray-200"
                 />
@@ -112,8 +109,7 @@
                 target="_blank"
                 class="shrink-0 snap-start transition-transform duration-300 hover:-translate-y-2 hover:drop-shadow-xl"
               >
-                <img
-                  src="assets/books/book-dl-medical-imaging2.png"
+                <img loading="lazy" decoding="async" src="assets/books/book-dl-medical-imaging2.webp"
                   alt="Book cover"
                   class="h-48 md:h-56 lg:h-64 w-auto rounded-lg object-contain bg-white/50 p-2 border border-gray-200"
                 />
@@ -123,8 +119,7 @@
                 target="_blank"
                 class="shrink-0 snap-start transition-transform duration-300 hover:-translate-y-2 hover:drop-shadow-xl"
               >
-                <img
-                  src="assets/books/book-coverS2017.png"
+                <img loading="lazy" decoding="async" src="assets/books/book-coverS2017.webp"
                   alt="Book cover"
                   class="h-48 md:h-56 lg:h-64 w-auto rounded-lg object-contain bg-white/50 p-2 border border-gray-200"
                 />
@@ -134,8 +129,7 @@
                 target="_blank"
                 class="shrink-0 snap-start transition-transform duration-300 hover:-translate-y-2 hover:drop-shadow-xl"
               >
-                <img
-                  src="assets/books/book-covid1.png"
+                <img loading="lazy" decoding="async" src="assets/books/book-covid1.webp"
                   alt="Book cover"
                   class="h-48 md:h-56 lg:h-64 w-auto rounded-lg object-contain bg-white/50 p-2 border border-gray-200"
                 />
@@ -618,11 +612,11 @@
 
     <div id="footer-placeholder"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-config.js"></script>
-    <script src="js/toast.js"></script>
-    <script src="js/navbar.js"></script>
-    <script src="js/publications.js"></script>
-    <script src="js/loader.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script defer src="js/supabase-config.js"></script>
+    <script defer src="js/toast.js"></script>
+    <script defer src="js/navbar.js"></script>
+    <script defer src="js/publications.js"></script>
+    <script defer src="js/loader.js"></script>
   </body>
 </html>

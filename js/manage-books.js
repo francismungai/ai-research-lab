@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       <tr class="hover:bg-gray-50 transition border-b border-gray-100 last:border-0">
         <td class="p-4">
           <div class="flex items-center gap-3">
-            ${book.image_url ? `<img src="${book.image_url}" alt="Cover" class="w-8 h-12 object-cover rounded-sm shadow-sm" onerror="this.style.display='none'">` : ""}
+            ${book.image_url ? `<img src="${book.image_url.startsWith('http') ? book.image_url : '../' + book.image_url.replace(/\\.(jpg|jpeg|png)$/i, '.webp')}" alt="Cover" loading="lazy" decoding="async" class="w-8 h-12 object-cover rounded-sm shadow-sm" onerror="this.style.display='none'">` : ""}
             <div>
               <p class="text-sm font-bold text-gray-900">${book.title}</p>
               <p class="text-xs text-gray-500 mt-1">${book.authors}</p>

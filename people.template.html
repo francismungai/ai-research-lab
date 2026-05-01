@@ -19,10 +19,12 @@
         scrollbar-width: none;
       }
     </style>
-  </head>
+      <link rel="preload" as="image" href="assets/icons/logo-BHzomKBk.svg" />
+    <link rel="preload" as="image" href="assets/backgrounds/building-bg.webp" />
+</head>
   <body
     class="font-sans text-gray-900 bg-cover bg-center bg-fixed bg-no-repeat"
-    style="background-image: url(&quot;assets/backgrounds/building-bg.jpeg&quot;)"
+    style="background-image: url(&quot;assets/backgrounds/building-bg.webp&quot;)"
   >
     <div id="navbar-placeholder" class="min-h-16 sticky top-0 z-50"></div>
 
@@ -159,11 +161,11 @@
 
     <div id="footer-placeholder"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-config.js"></script>
-    <script src="js/toast.js"></script>
-    <script src="js/navbar.js"></script>
-    <script src="js/loader.js"></script>
-    <script src="js/people.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script defer src="js/supabase-config.js"></script>
+    <script defer src="js/toast.js"></script>
+    <script defer src="js/navbar.js"></script>
+    <script defer src="js/loader.js"></script>
+    <script defer src="js/people.js"></script>
   </body>
 </html>

@@ -9,10 +9,12 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-  </head>
+      <link rel="preload" as="image" href="assets/icons/logo-BHzomKBk.svg" />
+    <link rel="preload" as="image" href="assets/backgrounds/building-bg.webp" />
+</head>
   <body
     class="font-sans text-gray-900 bg-cover bg-center bg-fixed bg-no-repeat"
-    style="background-image: url(&quot;assets/backgrounds/building-bg.jpeg&quot;)"
+    style="background-image: url(&quot;assets/backgrounds/building-bg.webp&quot;)"
   >
     <div id="navbar-placeholder" class="min-h-16 sticky top-0 z-50"></div>
 
@@ -123,8 +125,7 @@
               <div
                 class="h-48 bg-gray-50 flex items-center justify-center border-b border-gray-100 p-4"
               >
-                <img
-                  src="assets/icons/ai-symposium-new.svg"
+                <img loading="lazy" decoding="async" src="assets/icons/ai-symposium-new.svg"
                   alt="AI Symposium"
                   class="max-h-full max-w-full object-contain"
                 />
@@ -179,8 +180,7 @@
               <div
                 class="h-48 bg-gray-50 flex items-center justify-center border-b border-gray-100 p-4"
               >
-                <img
-                  src="assets/icons/ai-club-new.svg"
+                <img loading="lazy" decoding="async" src="assets/icons/ai-club-new.svg"
                   alt="AI Club"
                   class="max-h-full max-w-full object-contain"
                 />
@@ -207,8 +207,7 @@
               <div
                 class="h-48 bg-gray-50 flex items-center justify-center border-b border-gray-100 p-4"
               >
-                <img
-                  src="assets/icons/rtip2r-new.svg"
+                <img loading="lazy" decoding="async" src="assets/icons/rtip2r-new.svg"
                   alt="RTIP2R Conference"
                   class="max-h-full max-w-full object-contain"
                 />
@@ -275,8 +274,7 @@
               <div
                 class="h-48 bg-gray-50 flex items-center justify-center border-b border-gray-100 p-4"
               >
-                <img
-                  src="assets/icons/ai-engineering-new.svg"
+                <img loading="lazy" decoding="async" src="assets/icons/ai-engineering-new.svg"
                   alt="AIEI"
                   class="max-h-full max-w-full object-contain"
                 />
@@ -304,8 +302,7 @@
               <div
                 class="h-48 bg-gray-50 flex items-center justify-center border-b border-gray-100 p-4"
               >
-                <img
-                  src="assets/icons/applied-ai-new.svg"
+                <img loading="lazy" decoding="async" src="assets/icons/applied-ai-new.svg"
                   alt="2AI Conference"
                   class="max-h-full max-w-full object-contain"
                 />
@@ -335,8 +332,7 @@
               <div
                 class="h-48 bg-gray-50 flex items-center justify-center border-b border-gray-100 p-4"
               >
-                <img
-                  src="assets/icons/cvmi-new.svg"
+                <img loading="lazy" decoding="async" src="assets/icons/cvmi-new.svg"
                   alt="CVMI Conference"
                   class="max-h-full max-w-full object-contain"
                 />
@@ -365,8 +361,7 @@
               <div
                 class="h-48 bg-gray-50 flex items-center justify-center border-b border-gray-100 p-4"
               >
-                <img
-                  src="assets/icons/big-data-africa-new.svg"
+                <img loading="lazy" decoding="async" src="assets/icons/big-data-africa-new.svg"
                   alt="Big Data Africa Symposium"
                   class="max-h-full max-w-full object-contain"
                 />
@@ -395,10 +390,10 @@
 
     <div id="footer-placeholder"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-config.js"></script>
-    <script src="js/toast.js"></script>
-    <script src="js/navbar.js"></script>
-    <script src="js/loader.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script defer src="js/supabase-config.js"></script>
+    <script defer src="js/toast.js"></script>
+    <script defer src="js/navbar.js"></script>
+    <script defer src="js/loader.js"></script>
   </body>
 </html>

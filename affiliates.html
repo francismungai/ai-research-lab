@@ -9,10 +9,12 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-  </head>
+      <link rel="preload" as="image" href="assets/icons/logo-BHzomKBk.svg" />
+    <link rel="preload" as="image" href="assets/backgrounds/building-bg.webp" />
+</head>
   <body
     class="font-sans text-gray-900 bg-cover bg-center bg-fixed bg-no-repeat"
-    style="background-image: url(&quot;assets/backgrounds/building-bg.jpeg&quot;)"
+    style="background-image: url(&quot;assets/backgrounds/building-bg.webp&quot;)"
   >
     <div id="navbar-placeholder" class="min-h-16 sticky top-0 z-50"></div>
 
@@ -46,8 +48,7 @@
               <div
                 class="flex-1 flex items-center justify-center mb-4 h-32 bg-gray-900 rounded-xl p-4"
               >
-                <img
-                  src="assets/partners/monolythai.png"
+                <img loading="lazy" decoding="async" src="assets/partners/monolythai.webp"
                   alt="Monolyth AI"
                   class="max-h-full max-w-full object-contain"
                 />
@@ -72,8 +73,7 @@
               <div
                 class="flex-1 flex items-center justify-center mb-4 h-32 p-4"
               >
-                <img
-                  src="assets/partners/Sterling.png"
+                <img loading="lazy" decoding="async" src="assets/partners/Sterling.webp"
                   alt="Sterling"
                   class="max-h-full max-w-full object-contain"
                 />
@@ -98,8 +98,7 @@
               <div
                 class="flex-1 flex items-center justify-center mb-4 h-32 p-4"
               >
-                <img
-                  src="assets/partners/Area.png"
+                <img loading="lazy" decoding="async" src="assets/partners/Area.webp"
                   alt="Vermillion Chamber of Commerce"
                   class="max-h-full max-w-full object-contain"
                 />
@@ -124,8 +123,7 @@
               <div
                 class="flex-1 flex items-center justify-center mb-4 h-32 p-4"
               >
-                <img
-                  src="assets/partners/dakota.png"
+                <img loading="lazy" decoding="async" src="assets/partners/dakota.webp"
                   alt="Dakota PC"
                   class="max-h-full max-w-full object-contain"
                 />
@@ -164,8 +162,7 @@
               <div
                 class="flex-1 flex items-center justify-center mb-4 h-24 p-2"
               >
-                <img
-                  src="assets/partners/SD-BCC.png"
+                <img loading="lazy" decoding="async" src="assets/partners/SD-BCC.webp"
                   alt="SD-BCC"
                   class="max-h-full max-w-full object-contain"
                 />
@@ -185,8 +182,7 @@
               <div
                 class="flex-1 flex items-center justify-center mb-4 h-24 p-2"
               >
-                <img
-                  src="assets/partners/LAMIS.png"
+                <img loading="lazy" decoding="async" src="assets/partners/LAMIS.webp"
                   alt="LAMIS Laboratory"
                   class="max-h-full max-w-full object-contain"
                 />
@@ -206,8 +202,7 @@
               <div
                 class="flex-1 flex items-center justify-center mb-4 h-24 p-2"
               >
-                <img
-                  src="assets/partners/carce_logo.png"
+                <img loading="lazy" decoding="async" src="assets/partners/carce_logo.webp"
                   alt="CARCE"
                   class="max-h-full max-w-full object-contain"
                 />
@@ -227,8 +222,7 @@
               <div
                 class="flex-1 flex items-center justify-center mb-4 h-24 p-2"
               >
-                <img
-                  src="assets/partners/cariset_logo.png"
+                <img loading="lazy" decoding="async" src="assets/partners/cariset_logo.webp"
                   alt="CARISET"
                   class="max-h-full max-w-full object-contain"
                 />
@@ -248,8 +242,7 @@
               <div
                 class="flex-1 flex items-center justify-center mb-4 h-24 p-2"
               >
-                <img
-                  src="assets/partners/IEEE.png"
+                <img loading="lazy" decoding="async" src="assets/partners/IEEE.webp"
                   alt="IEEE Region 4"
                   class="max-h-full max-w-full object-contain"
                 />
@@ -308,10 +301,10 @@
 
     <div id="footer-placeholder"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-config.js"></script>
-    <script src="js/toast.js"></script>
-    <script src="js/navbar.js"></script>
-    <script src="js/loader.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script defer src="js/supabase-config.js"></script>
+    <script defer src="js/toast.js"></script>
+    <script defer src="js/navbar.js"></script>
+    <script defer src="js/loader.js"></script>
   </body>
 </html>

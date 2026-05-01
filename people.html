@@ -19,10 +19,12 @@
         scrollbar-width: none;
       }
     </style>
-  </head>
+      <link rel="preload" as="image" href="assets/icons/logo-BHzomKBk.svg" />
+    <link rel="preload" as="image" href="assets/backgrounds/building-bg.webp" />
+</head>
   <body
     class="font-sans text-gray-900 bg-cover bg-center bg-fixed bg-no-repeat"
-    style="background-image: url(&quot;assets/backgrounds/building-bg.jpeg&quot;)"
+    style="background-image: url(&quot;assets/backgrounds/building-bg.webp&quot;)"
   >
     <div id="navbar-placeholder" class="min-h-16 sticky top-0 z-50"></div>
 
@@ -124,8 +126,7 @@
             <div
               class="w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-[#C53030] transition-colors duration-300"
             >
-              <img
-                src="assets/people/kc-santosh.jpg"
+              <img loading="lazy" decoding="async" src="assets/people/kc-santosh.webp"
                 alt="Prof. KC Santosh"
                 class="w-full h-full object-cover"
               />
@@ -164,8 +165,7 @@
             <div
               class="w-26 h-26 mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-[#C53030] transition-colors duration-300"
             >
-              <img
-                src="assets/people/rodrigue-rizk.jpg"
+              <img loading="lazy" decoding="async" src="assets/people/rodrigue-rizk.webp"
                 alt="Dr. Rodrigue Rizk"
                 class="w-full h-full object-cover object-top"
               />
@@ -204,8 +204,7 @@
             <div
               class="w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-[#C53030] transition-colors duration-300"
             >
-              <img
-                src="assets/people/longwei-wang.jpeg"
+              <img loading="lazy" decoding="async" src="assets/people/longwei-wang.webp"
                 alt="Dr. Longwei Wang"
                 class="w-full h-full object-cover"
               />
@@ -244,8 +243,7 @@
             <div
               class="w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-[#C53030] transition-colors duration-300"
             >
-              <img
-                src="assets/people/srikanth-baride.jpg"
+              <img loading="lazy" decoding="async" src="assets/people/srikanth-baride.webp"
                 alt="Dr. Srikanth Baride"
                 class="w-full h-full object-cover"
               />
@@ -284,8 +282,7 @@
             <div
               class="w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-[#C53030] transition-colors duration-300"
             >
-              <img
-                src="assets/people/nand-yadav.jpg"
+              <img loading="lazy" decoding="async" src="assets/people/nand-yadav.webp"
                 alt="Dr. Nand K Yadav"
                 class="w-full h-full object-cover"
               />
@@ -317,8 +314,7 @@
             <div
               class="w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-gray-100 group-hover:border-[#C53030] transition-colors duration-300"
             >
-              <img
-                src="assets/people/deepika-nuthalapati.jpg"
+              <img loading="lazy" decoding="async" src="assets/people/deepika-nuthalapati.webp"
                 alt="Deepika Nuthalapati"
                 class="w-full h-full object-cover"
               />
@@ -417,11 +413,11 @@
 
     <div id="footer-placeholder"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-config.js"></script>
-    <script src="js/toast.js"></script>
-    <script src="js/navbar.js"></script>
-    <script src="js/loader.js"></script>
-    <script src="js/people.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script defer src="js/supabase-config.js"></script>
+    <script defer src="js/toast.js"></script>
+    <script defer src="js/navbar.js"></script>
+    <script defer src="js/loader.js"></script>
+    <script defer src="js/people.js"></script>
   </body>
 </html>

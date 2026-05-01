@@ -54,9 +54,9 @@ async function buildPeoplePage() {
 
     // --- LOCAL ASSET ROUTING WITH FALLBACK ---
     if (person.photo_url) {
-      const filename = person.photo_url.split("/").pop();
+      const filename = person.photo_url.split("/").pop().replace(/\.(jpg|jpeg|png)$/i, '.webp');
       const localImagePath = `assets/people/${filename}`;
-      imageHtml = `<img src="${localImagePath}" onerror="this.onerror=null; this.src='${person.photo_url}';" alt="${person.name}" class="w-full h-full object-cover ${person.name.includes("Rizk") ? "object-top" : ""}"/>`;
+      imageHtml = `<img src="${localImagePath}" onerror="this.onerror=null; this.src='${person.photo_url}';" alt="${person.name}" loading="lazy" decoding="async" class="w-full h-full object-cover ${person.name.includes("Rizk") ? "object-top" : ""}"/>`;
     } else {
       imageHtml = `<div class="w-full h-full bg-gray-50 flex items-center justify-center group-hover:bg-red-50 transition-colors duration-300"><i class="bx bx-user text-4xl text-gray-300 group-hover:text-[#C53030]"></i></div>`;
     }
@@ -126,10 +126,10 @@ async function buildPublicationsPage() {
     // Local image routing for books
     let imageHtml = "";
     if (book.image_url) {
-      const filename = book.image_url.split("/").pop();
+      const filename = book.image_url.split("/").pop().replace(/\.(jpg|jpeg|png)$/i, '.webp');
       const localImagePath = `assets/books/${filename}`;
       // Added min-width so broken images don't collapse to 0 pixels
-      imageHtml = `<img src="${localImagePath}" onerror="this.onerror=null; this.src='${book.image_url}';" alt="${book.title}" class="h-48 md:h-56 lg:h-64 w-auto rounded-lg object-contain bg-white/50 p-2 border border-gray-200" style="min-width: 130px;"/>`;
+      imageHtml = `<img src="${localImagePath}" onerror="this.onerror=null; this.src='${book.image_url}';" alt="${book.title}" loading="lazy" decoding="async" class="h-48 md:h-56 lg:h-64 w-auto rounded-lg object-contain bg-white/50 p-2 border border-gray-200" style="min-width: 130px;"/>`;
     } else {
       // Fallback placeholder for books with no image URL
       imageHtml = `<div class="h-48 md:h-56 lg:h-64 w-[130px] md:w-[150px] rounded-lg bg-gray-50 border border-gray-200 flex flex-col items-center justify-center p-3 text-center shadow-sm"><i class='bx bx-book-content text-4xl text-gray-300 mb-2'></i><span class="text-xs font-bold text-gray-500 line-clamp-3">${book.title}</span></div>`;

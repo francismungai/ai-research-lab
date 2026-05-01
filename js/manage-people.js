@@ -82,12 +82,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         // --- PATH FIX: Handle local paths inside the portal ---
         let resolvedImgSrc = "";
         if (person.photo_url) {
-          if (person.photo_url.startsWith("http")) {
-            resolvedImgSrc = person.photo_url; // It's a cloud upload, use it directly
-          } else if (person.photo_url.startsWith("/")) {
-            resolvedImgSrc = `..${person.photo_url}`; // Remove leading slash context
+          let url = person.photo_url;
+          if (!url.startsWith("http")) {
+            url = url.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+          }
+          if (url.startsWith("http")) {
+            resolvedImgSrc = url; // It's a cloud upload, use it directly
+          } else if (url.startsWith("/")) {
+            resolvedImgSrc = `..${url}`; // Remove leading slash context
           } else {
-            resolvedImgSrc = `../${person.photo_url}`; // Prepend with folder up command
+            resolvedImgSrc = `../${url}`; // Prepend with folder up command
           }
         }
 
@@ -97,7 +101,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="flex items-center gap-3">
             ${
               resolvedImgSrc
-                ? `<img src="${resolvedImgSrc}" alt="Photo" class="w-10 h-10 rounded-full object-cover shadow-sm bg-gray-200" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(person.name)}&background=random'">`
+                ? `<img src="${resolvedImgSrc}" alt="Photo" loading="lazy" decoding="async" class="w-10 h-10 rounded-full object-cover shadow-sm bg-gray-200" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(person.name)}&background=random'">`
                 : `<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-sm font-bold shadow-sm">${person.name.charAt(0)}</div>`
             }
             <div>

@@ -81,7 +81,7 @@ function renderPostCard(post) {
   let coverHtml = "";
   if (post.cover_image_url) {
     // 1. Extract the filename from the end of the Supabase URL
-    const filename = post.cover_image_url.split("/").pop();
+    const filename = post.cover_image_url.split("/").pop().replace(/\.(jpg|jpeg|png)$/i, '.webp');
     // 2. Build the local path relative to the public HTML file
     const localImagePath = `assets/blog/${filename}`;
 
@@ -92,6 +92,8 @@ function renderPostCard(post) {
             src="${localImagePath}" 
             onerror="this.onerror=null; this.src='${post.cover_image_url}';" 
             alt="${post.title}" 
+            loading="lazy" 
+            decoding="async" 
             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
          />
        </div>`;
