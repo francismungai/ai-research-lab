@@ -38,9 +38,10 @@ function showToast(message, type = "info", duration = 4000) {
 
   const c = colors[type] || colors.info;
 
-  toast.className = `fixed top-20 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-3 px-5 py-3.5 rounded-xl shadow-xl border ${c.bg} ${c.border} ${c.text} text-sm font-medium max-w-md w-[90vw] sm:w-auto transition-all duration-300 ease-out`;
-  toast.style.opacity = "0";
-  toast.style.transform = "translate(-50%, -12px)";
+  // Build the classes.
+  // 'left-1/2 transform -translate-x-1/2' handles the perfect horizontal centering.
+  // '-translate-y-4 opacity-0' handles the initial hidden state for animation.
+  toast.className = `fixed top-20 left-1/2 transform -translate-x-1/2 z-[9999] flex items-center gap-3 px-5 py-3.5 rounded-xl shadow-xl border ${c.bg} ${c.border} ${c.text} text-sm font-medium max-w-md w-[90vw] sm:w-auto transition-all duration-300 ease-out -translate-y-4 opacity-0`;
 
   toast.innerHTML = `
     <i class="bx ${c.icon} text-xl ${c.iconColor} shrink-0"></i>
@@ -52,16 +53,18 @@ function showToast(message, type = "info", duration = 4000) {
 
   document.body.appendChild(toast);
 
-  // Animate in
+  // Animate in by swapping Tailwind classes
   requestAnimationFrame(() => {
-    toast.style.opacity = "1";
-    toast.style.transform = "translate(-50%, 0)";
+    requestAnimationFrame(() => {
+      toast.classList.remove("-translate-y-4", "opacity-0");
+      toast.classList.add("translate-y-0", "opacity-100");
+    });
   });
 
-  // Auto-dismiss
+  // Auto-dismiss by swapping Tailwind classes back
   setTimeout(() => {
-    toast.style.opacity = "0";
-    toast.style.transform = "translate(-50%, -12px)";
+    toast.classList.remove("translate-y-0", "opacity-100");
+    toast.classList.add("-translate-y-4", "opacity-0");
     setTimeout(() => toast.remove(), 300);
   }, duration);
 }
