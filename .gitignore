@@ -36,3 +36,6 @@ coverage/
 
 # Optional: ignore assets generated at runtime
 assets/*.tmp
+
+# Supabase CLI local state
+supabase/.temp/
