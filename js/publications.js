@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnPapers.addEventListener("click", () => switchTab(false));
   }
 
-  // --- 2. SEARCH & FILTER LOGIC ---
+  // --- 2. SEARCH & FILTER LOGIC (RESEARCH PAPERS) ---
   const searchInput = document.getElementById("paper-search");
   const filterBtns = document.querySelectorAll(".filter-btn");
   const paperCards = document.querySelectorAll(".paper-card");
@@ -45,18 +45,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentFilter = "All";
   let searchQuery = "";
 
-  // The function that does the actual filtering
   function applyFilters() {
     let visibleCount = 0;
 
     paperCards.forEach((card) => {
-      // Get all text inside the card and convert to lowercase for easy matching
       const cardText = card.textContent.toLowerCase();
-
-      // Check if it matches the search bar
       const matchesSearch = cardText.includes(searchQuery);
-
-      // Check if it matches the active pill (or if 'All' is selected)
       const matchesFilter =
         currentFilter === "All" ||
         cardText.includes(currentFilter.toLowerCase());
@@ -69,13 +63,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Update the tiny text telling the user how many papers are shown
     if (countDisplay) {
       countDisplay.textContent = `Showing ${visibleCount} paper${visibleCount !== 1 ? "s" : ""}`;
     }
   }
 
-  // Listen for typing in the search bar
   if (searchInput) {
     searchInput.addEventListener("input", (e) => {
       searchQuery = e.target.value.toLowerCase();
@@ -83,26 +75,78 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Listen for clicks on the filter pills
   filterBtns.forEach((btn) => {
     btn.addEventListener("click", (e) => {
-      // Remove 'active' styling from all buttons
       filterBtns.forEach((b) => {
         b.classList.remove("bg-[#C53030]", "text-white");
         b.classList.add("bg-gray-100", "text-gray-600");
       });
 
-      // Add 'active' styling to the clicked button
       const clickedBtn = e.target;
       clickedBtn.classList.remove("bg-gray-100", "text-gray-600");
       clickedBtn.classList.add("bg-[#C53030]", "text-white");
 
-      // Update state and filter
       currentFilter = clickedBtn.getAttribute("data-filter");
       applyFilters();
     });
   });
 
-  // Run once on load to set the initial count
-  applyFilters();
+  applyFilters(); // Run once on load
+
+  // --- 3. YEAR FILTER LOGIC (FEW SAMPLES) ---
+  const yearBtns = document.querySelectorAll(".year-btn");
+  const yearSections = document.querySelectorAll(".year-section");
+
+  yearBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      // Update Active Pill
+      yearBtns.forEach((b) => {
+        b.classList.remove("bg-[#C53030]", "text-white");
+        b.classList.add("bg-white", "text-gray-600");
+      });
+      btn.classList.remove("bg-white", "text-gray-600");
+      btn.classList.add("bg-[#C53030]", "text-white");
+
+      // Filter Sections
+      const targetYear = btn.getAttribute("data-year");
+      yearSections.forEach((section) => {
+        if (
+          targetYear === "All" ||
+          section.getAttribute("data-year") === targetYear
+        ) {
+          section.style.display = "block";
+        } else {
+          section.style.display = "none";
+        }
+      });
+    });
+  });
+
+  // --- 4. SCROLL BUTTONS LOGIC (THROTTLED) ---
+  const scrollBtns = document.getElementById("scroll-buttons");
+  let isScrolling = false;
+
+  if (scrollBtns) {
+    window.addEventListener("scroll", () => {
+      if (!isScrolling) {
+        window.requestAnimationFrame(() => {
+          if (window.scrollY > 300) {
+            scrollBtns.classList.replace("opacity-0", "opacity-100");
+            scrollBtns.classList.replace(
+              "pointer-events-none",
+              "pointer-events-auto",
+            );
+          } else {
+            scrollBtns.classList.replace("opacity-100", "opacity-0");
+            scrollBtns.classList.replace(
+              "pointer-events-auto",
+              "pointer-events-none",
+            );
+          }
+          isScrolling = false;
+        });
+        isScrolling = true;
+      }
+    });
+  }
 });
